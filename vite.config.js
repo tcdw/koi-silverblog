@@ -6,6 +6,7 @@ import config from "./develop.json";
 export default defineConfig({
     build: {
         outDir: "public/dist",
+        publicDir: "public/custom",
         manifest: true,
         rollupOptions: {
             input: 'src/main.ts',
