@@ -1,5 +1,8 @@
 import { defineConfig } from "vite";
 
+import SilverBlog from "./tools/plugins/silverblog";
+import config from "./config.json";
+
 export default defineConfig({
     build: {
         outDir: "public/dist",
@@ -8,4 +11,7 @@ export default defineConfig({
             input: 'src/main.ts',
         },
     },
+    plugins: [
+        SilverBlog(config.SilverBlogServer),
+    ]
 });

@@ -1,6 +1,6 @@
 [
     {
         "Key": "ViteBundle",
-        "Value": "public/vite-assets.json"
+        "Value": "public/dist/vite-assets.json"
     }
 ]
