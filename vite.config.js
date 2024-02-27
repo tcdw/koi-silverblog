@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 
 import SilverBlog from "./tools/plugins/silverblog";
-import config from "./config.json";
+import config from "./develop.json";
 
 export default defineConfig({
     build: {
