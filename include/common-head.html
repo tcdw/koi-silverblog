@@ -1,0 +1,34 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="generator" content="SilverBlog">
+<meta name="renderer" content="webkit">
+<link href="/feed/" type="application/atom+xml" rel="alternate" title="订阅「{{ System.Project.Name }}」">
+{% if Page.PageInfo.Title=="index" %}
+    {% set title=System.Project.Name %}
+    {% set description=System.Project.Description %}
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ System.Project.URL }}">
+    <meta property="og:image" content="{{ System.Author.Avatar }}">
+{% else %}
+    {% set title=Page.MetaData.Title %}
+    {% set description=Page.MetaData.Excerpt %}
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ System.Project.URL }}/post/{{ Page.MetaData.Name }}">
+    <meta property="og:image" content="{{ System.Author.Avatar }}">
+{% endif %}
+<meta property="og:title" content="{{ title }}">
+<meta property="og:description" content="{{ description }}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="{{ Template.Config.TwitterSite }}">
+<meta name="description" content="{{ description }}">
+<title>{{ title }}</title>
+
+{% if System.DevMode %}
+    <script type="module" src="{{ Template.Config.ViteHMRServer }}/@vite/client"></script>
+    <script type="module" src="{{ Template.Config.ViteHMRServer }}/src/main.ts"></script>
+{% else %}
+    <script type="module" src="/public/dist/{{ Template.Extra.ViteBundle.JSFile }}"></script>
+    {%- for CSSItem in Template.Extra.ViteBundle.CSSFile -%}
+        <link rel="stylesheet" href="/public/dist/{{ CSSItem }}">
+    {%- endfor -%}
+{% endif %}
