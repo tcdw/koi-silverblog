@@ -2,6 +2,7 @@ import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
 /**
+ * @param {string} host
  * @returns {import("vite").PluginOption}
  */
 export default function SilverBlog(host) {

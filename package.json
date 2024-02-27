@@ -1,5 +1,5 @@
 {
-  "name": "vite-silverblog-template",
+  "name": "koi-silverblog",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,13 +7,17 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "postbuild": "node ./scripts/post-build.js"
+    "postbuild": "node ./tools/scripts/post-build.js"
   },
   "devDependencies": {
+    "@types/node": "^20.11.20",
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.4"
+  },
+  "dependencies": {
+    "@tailwindcss/typography": "^0.5.10"
   }
 }

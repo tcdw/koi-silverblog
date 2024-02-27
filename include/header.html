@@ -1,0 +1,71 @@
+{%- if Page.PageInfo.Title=="index" && Page.PageInfo.NowPage == 1 -%}
+    {%- set heightClassName="h-[calc(100svh+8rem)]" -%}
+    {%- set bannerBottomClassName="bottom-10" -%}
+{%- else -%}
+    {%- set heightClassName="h-[calc(65lvh+8rem)]" -%}
+    {%- set bannerBottomClassName="bottom-6" -%}
+{%- endif -%}
+
+<!-- 顶部导航 -->
+<nav class="fixed w-full top-0 z-20">
+    <div id="koi-nav-bar"
+         class="absolute -translate-x-2/4 left-2/4 h-[var(--navBar-height)] md:h-[inherit] backdrop-blur-2xl bg-white bg-opacity-80 dark:bg-primary-950 dark:bg-opacity-80 shadow-2xl [transition:top_150ms,height_400ms_cubic-bezier(.47,1.64,.41,.8)] overflow-clip rounded-[2.25rem] top-4 w-[calc(100dvw-2rem)] md:w-max"
+         style="--navBar-height: 4.5rem"
+         data-class-base="absolute -translate-x-2/4 left-2/4 h-[var(--navBar-height)] md:h-[inherit] backdrop-blur-2xl bg-white bg-opacity-80 dark:bg-primary-950 dark:bg-opacity-80 shadow-2xl [transition:top_150ms,height_400ms_cubic-bezier(.47,1.64,.41,.8)] overflow-clip"
+         data-class-top="rounded-[2.25rem] top-4 w-[calc(100dvw-2rem)] md:w-max"
+         data-class-normal="w-full top-0 shadow-[rgba(0,0,0,0.15)]">
+        <div class="flex justify-between md:justify-center items-center gap-8 ps-3 pe-3 py-3">
+            <a href="/" class="block flex-none" title="首页">
+                <img src="{{ System.Author.Avatar }}" alt="Avatar" class="block w-12 h-12 rounded-full">
+            </a>
+            <ul class="hidden md:contents">
+                {%- for item in Page.MenuList -%}
+                    <li class="contents">
+                        <a class="text-base leading-6 h-6 block text-black dark:text-white hover:text-accent-600 dark:hover:text-accent-500 transition-colors duration-200 flex-none" href="{{ item.URL }}">{{ item.Title }}</a>
+                    </li>
+                {%- endfor -%}
+            </ul>
+            <div class="flex flex-none">
+                <a aria-label="订阅本站"
+                   class="w-12 h-12 flex items-center justify-center rounded-full -ms-3 text-black dark:text-white transition-colors bg-white bg-opacity-0 active:bg-opacity-10"
+                   href="/feed"
+                   target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1408" height="1408" viewBox="0 0 1408 1408" class="w-[1.25rem] h-[1.25rem]">
+                        <path fill="currentColor" d="M384 1216q0 80-56 136t-136 56t-136-56t-56-136t56-136t136-56t136 56t56 136m512 123q2 28-17 48q-18 21-47 21H697q-25 0-43-16.5t-20-41.5q-22-229-184.5-391.5T58 774q-25-2-41.5-20T0 711V576q0-29 21-47q17-17 43-17h5q160 13 306 80.5T634 774q114 113 181.5 259t80.5 306m512 2q2 27-18 47q-18 20-46 20h-143q-26 0-44.5-17.5T1137 1348q-12-215-101-408.5t-231.5-336t-336-231.5T60 270q-25-1-42.5-19.5T0 207V64q0-28 20-46Q38 0 64 0h3q262 13 501.5 120T994 414q187 186 294 425.5t120 501.5"/>
+                    </svg>
+                </a>
+                <button id="koi-mobile-menu-control" aria-label="打开菜单" aria-controls="koi-mobile-menu" aria-expanded="false" class="w-12 h-12 md:hidden flex items-center justify-center rounded-full md:-ms-3 transition-colors bg-white bg-opacity-0 active:bg-opacity-10">
+                    <span class="block relative w-5 h-5" aria-hidden="true">
+                        <span class="duration-200 block w-5 h-[0.225rem] bg-black dark:bg-white rounded-full burger-bar-1 burger-bar-1--s1 absolute left-1/2"></span>
+                        <span class="duration-200 block w-5 h-[0.225rem] bg-black dark:bg-white rounded-full burger-bar-2 burger-bar-2--s1 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></span>
+                        <span class="duration-200 block w-5 h-[0.225rem] bg-black dark:bg-white rounded-full burger-bar-3 burger-bar-3--s1 absolute left-1/2"></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="hidden flex-col items-center md:hidden" id="koi-mobile-menu">
+        <hr class="w-[calc(100%-1.5rem)] transition-all duration-400 border-black/10 dark:border-white/10 opacity-0">
+        <ul class="w-full p-3">
+            {%- for item in Page.MenuList -%}
+                <li class="contents">
+                    <a class="text-xl leading-6 h-14 flex items-center justify-center text-black dark:text-white hover:text-accent-600 dark:hover:text-accent-500 transition-colors duration-200 flex-none" href="{{ item.URL }}">{{ item.Title }}</a>
+                </li>
+            {%- endfor -%}
+        </ul>
+    </div>
+    </div>
+</nav>
+
+<!-- 页面头图 -->
+<header id="navBackground" class="min-h-[30rem] {{ heightClassName }} flex flex-col z-0 bg-cover bg-center custom-header-bg-image">
+    <div class="flex-auto relative">
+        <div id="navScrollNotice" aria-hidden="true" class="absolute h-2 w-16 -translate-x-2/4 left-2/4 bottom-4 bg-white bg-opacity-60 rounded-full transition-all"></div>
+        <div class="absolute -translate-x-2/4 left-2/4 {{ bannerBottomClassName }} w-full max-w-4xl text-white px-5 md:px-6 [filter:drop-shadow(0_20px_13px_rgb(0_0_0_/_0.1))_drop-shadow(0_8px_5px_rgb(0_0_0_/_0.4))]">
+            <h1 class="text-4xl leading-normal font-bold">
+                <a href="/">{{ System.Project.Name }}</a>
+            </h1>
+            <p class="text-base leading-normal mt-1">{{ System.Project.Description }}</p>
+        </div>
+    </div>
+    <div aria-hidden="true" class="flex-none h-32 w-full bg-gradient-to-b from-transparent to-white dark:to-gray-950"></div>
+</header>
