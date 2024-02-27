@@ -46,7 +46,7 @@
             await init();
             loaded = true;
         } catch (e) {
-            message = e.message;
+            message = (e as any)?.message;
         }
     });
 </script>

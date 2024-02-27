@@ -36,6 +36,14 @@
     height: 0.2rem;
 }
 
+/* 视频播放器 */
+.prose video, .prose iframe, .prose embed {
+    width: 100%;
+    height: unset;
+    aspect-ratio: 16/9;
+    @apply rounded-lg;
+}
+
 /* 友情链接。官方不推荐通过 @apply 语法来使用 Tailwind CSS，但是…… */
 .friends-title {
     @apply text-2xl font-bold leading-normal my-4;
