@@ -1,7 +1,9 @@
 {%- if Page.PageInfo.Title=="index" && Page.PageInfo.NowPage == 1 -%}
+    {%- set largeBanner=true -%}
     {%- set heightClassName="h-[calc(100svh+8rem)]" -%}
     {%- set bannerBottomClassName="bottom-10" -%}
 {%- else -%}
+    {%- set largeBanner=false -%}
     {%- set heightClassName="h-[calc(65lvh+8rem)]" -%}
     {%- set bannerBottomClassName="bottom-6" -%}
 {%- endif -%}
@@ -44,22 +46,24 @@
             </div>
         </div>
         <div class="hidden flex-col items-center md:hidden" id="koi-mobile-menu">
-        <hr class="w-[calc(100%-1.5rem)] transition-all duration-400 border-black/10 dark:border-white/10 opacity-0">
-        <ul class="w-full p-3">
-            {%- for item in Page.MenuList -%}
-                <li class="contents">
-                    <a class="text-xl leading-6 h-14 flex items-center justify-center text-black dark:text-white hover:text-accent-600 dark:hover:text-accent-500 transition-colors duration-200 flex-none" href="{{ item.URL }}">{{ item.Title }}</a>
-                </li>
-            {%- endfor -%}
-        </ul>
-    </div>
+            <hr class="w-[calc(100%-1.5rem)] transition-all duration-400 border-black/10 dark:border-white/10 opacity-0">
+            <ul class="w-full p-3">
+                {%- for item in Page.MenuList -%}
+                    <li class="contents">
+                        <a class="text-xl leading-6 h-14 flex items-center justify-center text-black dark:text-white hover:text-accent-600 dark:hover:text-accent-500 transition-colors duration-200 flex-none" href="{{ item.URL }}">{{ item.Title }}</a>
+                    </li>
+                {%- endfor -%}
+            </ul>
+        </div>
     </div>
 </nav>
 
 <!-- 页面头图 -->
 <header id="navBackground" class="min-h-[30rem] {{ heightClassName }} flex flex-col z-0 bg-cover bg-center custom-header-bg-image">
     <div class="flex-auto relative">
-        <div id="navScrollNotice" aria-hidden="true" class="absolute h-2 w-16 -translate-x-2/4 left-2/4 bottom-4 bg-white bg-opacity-60 rounded-full transition-all"></div>
+        {%- if largeBanner -%}
+            <div id="navScrollNotice" aria-hidden="true" class="absolute h-2 w-16 -translate-x-2/4 left-2/4 bottom-4 bg-white bg-opacity-60 rounded-full transition-all"></div>
+        {%- endif -%}
         <div class="absolute -translate-x-2/4 left-2/4 {{ bannerBottomClassName }} w-full max-w-4xl text-white px-5 md:px-6 [filter:drop-shadow(0_20px_13px_rgb(0_0_0_/_0.1))_drop-shadow(0_8px_5px_rgb(0_0_0_/_0.4))]">
             <h1 class="text-4xl leading-normal font-bold">
                 <a href="/">{{ System.Project.Name }}</a>
