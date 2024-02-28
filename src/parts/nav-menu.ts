@@ -16,78 +16,93 @@ const mobileMenuItemCount = mobileMenu.querySelectorAll("li").length;
 let navBackground = document.getElementById("navBackground")!;
 let navScrollNotice = document.getElementById("navScrollNotice");
 
-// 状态机
-let mobileMenuOpen = false;
-
 // 移动端菜单按钮及动画
 let menuTimer: any;
 let menuItemTimer: any;
 
-let menuStep = 1;
-let menuStepMiddle = 1;
-let menuItemHidden = true;
-
-function updateCrossStep(to: number) {
-    burgerBarTop.classList.remove(`burger-bar-1--s${menuStep}`);
-    burgerBarBottom.classList.remove(`burger-bar-3--s${menuStep}`);
-    burgerBarTop.classList.add(`burger-bar-1--s${to}`);
-    burgerBarBottom.classList.add(`burger-bar-3--s${to}`);
-    menuStep = to;
+interface Data {
+    menuStep: number
+    menuStepMiddle: number
+    menuItemHidden: boolean
+    mobileMenuOpen: boolean
 }
 
-function updateMiddleStep(to: number) {
-    burgerBarMiddle.classList.remove(`burger-bar-2--s${menuStepMiddle}`);
-    burgerBarMiddle.classList.add(`burger-bar-2--s${to}`);
-    menuStepMiddle = to;
-}
-
-function updateMobileMenuOpen(to: boolean) {
-    let mobileNavHeight;
-    if (to) {
-        mobileMenuBazel.classList.remove("opacity-0");
-        mobileNavHeight = mobileNavBaseHeight + mobileMenuBaseHeight + (mobileMenuItemHeight * mobileMenuItemCount);
-    } else {
-        mobileMenuBazel.classList.add("opacity-0");
-        mobileNavHeight = mobileNavBaseHeight;
+const data = new Proxy<Data>({
+    menuStep: 1,
+    menuStepMiddle: 1,
+    menuItemHidden: true,
+    mobileMenuOpen: false
+}, {
+    set(obj, prop: keyof Data, value) {
+        switch (prop) {
+            case "menuStep": {
+                burgerBarTop.classList.remove(`burger-bar-1--s${obj.menuStep}`);
+                burgerBarBottom.classList.remove(`burger-bar-3--s${obj.menuStep}`);
+                burgerBarTop.classList.add(`burger-bar-1--s${value}`);
+                burgerBarBottom.classList.add(`burger-bar-3--s${value}`);
+                obj.menuStep = value;
+                return true;
+            }
+            case "menuStepMiddle": {
+                burgerBarMiddle.classList.remove(`burger-bar-2--s${obj.menuStepMiddle}`);
+                burgerBarMiddle.classList.add(`burger-bar-2--s${value}`);
+                obj.menuStepMiddle = value;
+                return true;
+            }
+            case "menuItemHidden": {
+                if (value) {
+                    mobileMenu.classList.remove("flex");
+                    mobileMenu.classList.add("hidden");
+                } else {
+                    mobileMenu.classList.remove("hidden");
+                    mobileMenu.classList.add("flex");
+                }
+                obj.menuItemHidden = value;
+                return true;
+            }
+            case "mobileMenuOpen": {
+                let mobileNavHeight;
+                if (value) {
+                    mobileMenuBazel.classList.remove("opacity-0");
+                    mobileNavHeight = mobileNavBaseHeight + mobileMenuBaseHeight + (mobileMenuItemHeight * mobileMenuItemCount);
+                } else {
+                    mobileMenuBazel.classList.add("opacity-0");
+                    mobileNavHeight = mobileNavBaseHeight;
+                }
+                navBar.style.setProperty("--navBar-height", mobileNavHeight + "rem");
+                navBar.ariaExpanded = String(value);
+                obj.mobileMenuOpen = value;
+                return true;
+            }
+            default: {
+                return false;
+            }
+        }
     }
-    navBar.style.setProperty("--navBar-height", mobileNavHeight + "rem");
-    navBar.ariaExpanded = String(to);
-    mobileMenuOpen = to;
-}
+});
 
-function updateMenuItemHidden(to: boolean) {
-    if (to) {
-        mobileMenu.classList.remove("flex");
-        mobileMenu.classList.add("hidden");
-    } else {
-        mobileMenu.classList.remove("hidden");
-        mobileMenu.classList.add("flex");
-    }
-    menuItemHidden = to;
-}
-
-function handleMobileMenuToggle(to = !mobileMenuOpen) {
-    updateMobileMenuOpen(to);
+function handleMobileMenuToggle(to = !data.mobileMenuOpen) {
+    data.mobileMenuOpen = to;
     clearTimeout(menuTimer);
     clearTimeout(menuItemTimer);
-    updateCrossStep(2);
+    data.menuStep = 2;
 
     // 如果菜单已经打开，执行开启动画，反之执行关闭动画
-    if (mobileMenuOpen) {
-        updateMiddleStep(1);
+    if (data.mobileMenuOpen) {
+        data.menuStepMiddle = 1;
         menuTimer = setTimeout(() => {
-            updateCrossStep(3);
-            updateMiddleStep(2);
+            data.menuStep = 3;
+            data.menuStepMiddle = 2;
         }, 200);
-        updateMenuItemHidden(false);
+        data.menuItemHidden = false;
     } else {
-        updateMiddleStep(2);
+        data.menuStepMiddle = 2;
         menuTimer = setTimeout(() => {
-            updateCrossStep(1);
-            updateMiddleStep(1);
+            data.menuStep = 1;
+            data.menuStepMiddle = 1;
         }, 200);
         menuItemTimer = setTimeout(() => {
-            updateMenuItemHidden(true);
+            data.menuItemHidden = true;
         }, 400);
     }
 }
