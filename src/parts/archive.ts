@@ -1,7 +1,8 @@
-import Archive from "../components/Archive.svelte";
-
-if (document.body.dataset.current === "archive") {
-    new Archive({
-        target: document.querySelector(".prose")!,
-    })
-}
+document.addEventListener("DOMContentLoaded", async () => {
+    if (document.body.dataset.current === "archive") {
+        const Archive = (await import("../components/Archive.svelte")).default;
+        new Archive({
+            target: document.querySelector(".prose")!,
+        })
+    }
+});

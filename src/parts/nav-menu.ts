@@ -126,6 +126,16 @@ mobileMenuControl.addEventListener("click", () => {
     handleMobileMenuToggle();
 });
 
+mobileMenu.querySelectorAll("li a").forEach((e) => {
+    if (!(e instanceof HTMLElement)) {
+        return;
+    }
+    e.addEventListener("click", () => {
+        handleMobileMenuToggle(false);
+    });
+});
+
 window.addEventListener("scroll", () => {
     handleScroll();
 });
+handleScroll();

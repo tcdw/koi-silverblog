@@ -5,9 +5,9 @@ import config from "./develop.json";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 export default defineConfig({
+    publicDir: "public/custom",
     build: {
         outDir: "public/dist",
-        publicDir: "public/custom",
         manifest: true,
         rollupOptions: {
             input: 'src/main.ts',
