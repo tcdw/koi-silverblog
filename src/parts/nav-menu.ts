@@ -57,7 +57,7 @@ const data = createEffectObject({
             mobileNavHeight = mobileNavBaseHeight;
         }
         navBar.style.setProperty("--navBar-height", mobileNavHeight + "rem");
-        navBar.ariaExpanded = String(value);
+        mobileMenuControl.ariaExpanded = String(value);
     }
 })
 
