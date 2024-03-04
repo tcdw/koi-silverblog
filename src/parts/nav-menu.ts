@@ -1,3 +1,5 @@
+import {createEffectObject} from "../utils/proxy.ts";
+
 const navBar = document.getElementById("koi-nav-bar")!;
 const mobileMenu = document.getElementById("koi-mobile-menu")!;
 const mobileMenuControl = document.getElementById("koi-mobile-menu-control")!;
@@ -20,66 +22,44 @@ let navScrollNotice = document.getElementById("navScrollNotice");
 let menuTimer: any;
 let menuItemTimer: any;
 
-interface Data {
-    menuStep: number
-    menuStepMiddle: number
-    menuItemHidden: boolean
-    mobileMenuOpen: boolean
-}
-
-const data = new Proxy<Data>({
+const data = createEffectObject({
     menuStep: 1,
     menuStepMiddle: 1,
     menuItemHidden: true,
     mobileMenuOpen: false
 }, {
-    set(obj, prop: keyof Data, value) {
-        switch (prop) {
-            case "menuStep": {
-                burgerBarTop.classList.remove(`burger-bar-1--s${obj.menuStep}`);
-                burgerBarBottom.classList.remove(`burger-bar-3--s${obj.menuStep}`);
-                burgerBarTop.classList.add(`burger-bar-1--s${value}`);
-                burgerBarBottom.classList.add(`burger-bar-3--s${value}`);
-                obj.menuStep = value;
-                return true;
-            }
-            case "menuStepMiddle": {
-                burgerBarMiddle.classList.remove(`burger-bar-2--s${obj.menuStepMiddle}`);
-                burgerBarMiddle.classList.add(`burger-bar-2--s${value}`);
-                obj.menuStepMiddle = value;
-                return true;
-            }
-            case "menuItemHidden": {
-                if (value) {
-                    mobileMenu.classList.remove("flex");
-                    mobileMenu.classList.add("hidden");
-                } else {
-                    mobileMenu.classList.remove("hidden");
-                    mobileMenu.classList.add("flex");
-                }
-                obj.menuItemHidden = value;
-                return true;
-            }
-            case "mobileMenuOpen": {
-                let mobileNavHeight;
-                if (value) {
-                    mobileMenuBazel.classList.remove("opacity-0");
-                    mobileNavHeight = mobileNavBaseHeight + mobileMenuBaseHeight + (mobileMenuItemHeight * mobileMenuItemCount);
-                } else {
-                    mobileMenuBazel.classList.add("opacity-0");
-                    mobileNavHeight = mobileNavBaseHeight;
-                }
-                navBar.style.setProperty("--navBar-height", mobileNavHeight + "rem");
-                navBar.ariaExpanded = String(value);
-                obj.mobileMenuOpen = value;
-                return true;
-            }
-            default: {
-                return false;
-            }
+    menuStep(value, obj) {
+        burgerBarTop.classList.remove(`burger-bar-1--s${obj.menuStep}`);
+        burgerBarBottom.classList.remove(`burger-bar-3--s${obj.menuStep}`);
+        burgerBarTop.classList.add(`burger-bar-1--s${value}`);
+        burgerBarBottom.classList.add(`burger-bar-3--s${value}`);
+    },
+    menuStepMiddle(value, obj) {
+        burgerBarMiddle.classList.remove(`burger-bar-2--s${obj.menuStepMiddle}`);
+        burgerBarMiddle.classList.add(`burger-bar-2--s${value}`);
+    },
+    menuItemHidden(value) {
+        if (value) {
+            mobileMenu.classList.remove("flex");
+            mobileMenu.classList.add("hidden");
+        } else {
+            mobileMenu.classList.remove("hidden");
+            mobileMenu.classList.add("flex");
         }
+    },
+    mobileMenuOpen(value) {
+        let mobileNavHeight;
+        if (value) {
+            mobileMenuBazel.classList.remove("opacity-0");
+            mobileNavHeight = mobileNavBaseHeight + mobileMenuBaseHeight + (mobileMenuItemHeight * mobileMenuItemCount);
+        } else {
+            mobileMenuBazel.classList.add("opacity-0");
+            mobileNavHeight = mobileNavBaseHeight;
+        }
+        navBar.style.setProperty("--navBar-height", mobileNavHeight + "rem");
+        navBar.ariaExpanded = String(value);
     }
-});
+})
 
 function handleMobileMenuToggle(to = !data.mobileMenuOpen) {
     data.mobileMenuOpen = to;
