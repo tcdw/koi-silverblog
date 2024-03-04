@@ -28,14 +28,14 @@ const data = createEffectObject({
     menuItemHidden: true,
     mobileMenuOpen: false
 }, {
-    menuStep(value, obj) {
-        burgerBarTop.classList.remove(`burger-bar-1--s${obj.menuStep}`);
-        burgerBarBottom.classList.remove(`burger-bar-3--s${obj.menuStep}`);
+    menuStep(value, prevValue) {
+        burgerBarTop.classList.remove(`burger-bar-1--s${prevValue}`);
+        burgerBarBottom.classList.remove(`burger-bar-3--s${prevValue}`);
         burgerBarTop.classList.add(`burger-bar-1--s${value}`);
         burgerBarBottom.classList.add(`burger-bar-3--s${value}`);
     },
-    menuStepMiddle(value, obj) {
-        burgerBarMiddle.classList.remove(`burger-bar-2--s${obj.menuStepMiddle}`);
+    menuStepMiddle(value, prevValue) {
+        burgerBarMiddle.classList.remove(`burger-bar-2--s${prevValue}`);
         burgerBarMiddle.classList.add(`burger-bar-2--s${value}`);
     },
     menuItemHidden(value) {
