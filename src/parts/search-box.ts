@@ -1,5 +1,5 @@
 import SearchBox from "../components/SearchBox.svelte";
-import {exec, SEARCH_READY_PROMISE} from "../utils/search.ts";
+import {exec, resultToArray, SEARCH_READY_PROMISE} from "../utils/search.ts";
 import sqlString from "sqlstring-sqlite";
 
 new SearchBox({
@@ -8,12 +8,12 @@ new SearchBox({
 
 (async () => {
     await SEARCH_READY_PROMISE;
-    const keyword = "手机 XZ 水";
-    const splitKeyword = keyword.split(" ").map((e) => `%${e}%`);
+    const keyword = "手机 XZ";
+    const splitKeyword = keyword.trim().split(" ").map((e) => `%${e}%`);
     const result = await exec(
-        sqlString.format(`SELECT *
+        sqlString.format(`SELECT name, title, excerpt
                           FROM posts
                           WHERE \`content\` LIKE ? ${("AND `content` LIKE ? ").repeat(splitKeyword.length - 1)}`, splitKeyword)
     );
-    console.log(result);
+    console.log(resultToArray(result[0]));
 })();

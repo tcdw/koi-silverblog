@@ -11,6 +11,18 @@ const worker = new Worker("/public/dist/vendors/sql.js/worker.sql-wasm.js");
 let promiseCount = 1;
 const promisePool = new Map<number, { resolve: (value: any) => void, reject: (e: any) => void }>();
 
+export function resultToArray<T = any>(result: QueryExecResult): T[] {
+    const output: T[] = [];
+    result.values.forEach((e) => {
+        const constructed: any = {};
+        result.columns.forEach((f, j) => {
+            constructed[f] = e[j];
+        })
+        output.push(constructed);
+    })
+    return output;
+}
+
 export function exec(sql: string) {
     console.log("执行 SQL 语句", sql);
     promiseCount++;
