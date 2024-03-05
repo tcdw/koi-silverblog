@@ -29,6 +29,12 @@ devDependencies:
   svelte-check:
     specifier: ^3.6.4
     version: 3.6.5(postcss@8.4.35)(svelte@4.2.12)
+  svelte-headlessui:
+    specifier: ^0.0.33
+    version: 0.0.33
+  svelte-transition:
+    specifier: ^0.0.10
+    version: 0.0.10(svelte@4.2.12)
   tailwindcss:
     specifier: ^3.4.1
     version: 3.4.1
@@ -1464,6 +1470,10 @@ packages:
       - sugarss
     dev: true
 
+  /svelte-headlessui@0.0.33:
+    resolution: {integrity: sha512-GYEkYtXLrF1Yqyea7K6U63HMhNtZG9YSFwhedlQ8DpYsHmHztwSTZaLlEJIoygeyIKCSDmgomSTai7t8fj2yIw==}
+    dev: true
+
   /svelte-hmr@0.15.3(svelte@4.2.12):
     resolution: {integrity: sha512-41snaPswvSf8TJUhlkoJBekRrABDXDMdpNpT2tfHIv4JuhgvHqLMhEPGtaQn0BmbNSTkuz2Ed20DF2eHw0SmBQ==}
     engines: {node: ^12.20 || ^14.13.1 || >= 16}
@@ -1519,6 +1529,14 @@ packages:
       strip-indent: 3.0.0
       svelte: 4.2.12
       typescript: 5.3.3
+    dev: true
+
+  /svelte-transition@0.0.10(svelte@4.2.12):
+    resolution: {integrity: sha512-BN8XDA7dKyuh+Lmdn3vxCzJd3M7L4BLdRziIAJew2AiBFMcrJJg8srEMYYoTCOLtYJ2Oqlv3+3/K5b6uHM8LSg==}
+    peerDependencies:
+      svelte: ^3.59.1 || ^4.0.0
+    dependencies:
+      svelte: 4.2.12
     dev: true
 
   /svelte@4.2.12:
