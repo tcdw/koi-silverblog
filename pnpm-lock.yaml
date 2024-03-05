@@ -29,6 +29,9 @@ devDependencies:
   sql.js:
     specifier: ^1.10.2
     version: 1.10.2
+  sqlstring-sqlite:
+    specifier: ^0.1.1
+    version: 0.1.1
   svelte:
     specifier: ^4.2.12
     version: 4.2.12
@@ -1424,6 +1427,11 @@ packages:
 
   /sql.js@1.10.2:
     resolution: {integrity: sha512-jnKFtdHxuVUNgu1vHwFoTjjwfTuVDVqzGpw7H05Zq3YMNMDOpLFyFGvpgTRIQGd/mqcYntuMy7iygYCytD62jQ==}
+    dev: true
+
+  /sqlstring-sqlite@0.1.1:
+    resolution: {integrity: sha512-9CAYUJ0lEUPYJrswqiqdINNSfq3jqWo/bFJ7tufdoNeSK0Fy+d1kFTxjqO9PIqza0Kri+ZtYMfPVf1aZaFOvrQ==}
+    engines: {node: '>= 0.6'}
     dev: true
 
   /string-width@4.2.3:

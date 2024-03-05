@@ -12,6 +12,7 @@ let promiseCount = 1;
 const promisePool = new Map<number, { resolve: (value: any) => void, reject: (e: any) => void }>();
 
 export function exec(sql: string) {
+    console.log("执行 SQL 语句", sql);
     promiseCount++;
     worker.postMessage({
         id: promiseCount,
