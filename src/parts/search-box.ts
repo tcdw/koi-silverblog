@@ -10,6 +10,10 @@ new SearchBox({
     await SEARCH_READY_PROMISE;
     const keyword = "手机 XZ 水";
     const splitKeyword = keyword.split(" ").map((e) => `%${e}%`);
-    const result = await exec(sqlString.format("SELECT * FROM posts WHERE `content` LIKE ? " + ("AND `content` LIKE ? ").repeat(splitKeyword.length - 1), splitKeyword));
+    const result = await exec(
+        sqlString.format(`SELECT *
+                          FROM posts
+                          WHERE \`content\` LIKE ? ${("AND `content` LIKE ? ").repeat(splitKeyword.length - 1)}`, splitKeyword)
+    );
     console.log(result);
 })();
