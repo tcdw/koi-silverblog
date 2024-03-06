@@ -38,7 +38,6 @@
     }
 
     onMount(() => {
-        // dialog.open();
         document.getElementById("koi-search-dialog-control")?.addEventListener?.("click", () => {
             dialog.open();
         });
@@ -81,6 +80,7 @@
                             </div>
                             <label for="koi-search-keyword-input" class="sr-only">搜索关键词：</label>
                             <input id="koi-search-keyword-input"
+                                   autocomplete="off"
                                    bind:value={searchText}
                                    class="block w-full h-16 ps-16 bg-transparent text-black dark:text-white focus:outline-0 focus:bg-gray-950/5 dark:focus:bg-gray-50/5 transition-colors placeholder-opacity-30 border-b border-gray-950/5 dark:border-gray-50/5 focus:border-transparent dark:focus:border-transparent"
                                    placeholder="输入搜索关键词……">
