@@ -1,4 +1,5 @@
 import type { QueryExecResult } from "sql.js";
+import sqlString from "sqlstring-sqlite";
 
 let searchReadyPromiseResolve: () => void;
 
@@ -12,6 +13,9 @@ let promiseCount = 1;
 const promisePool = new Map<number, { resolve: (value: any) => void, reject: (e: any) => void }>();
 
 export function resultToArray<T = any>(result: QueryExecResult): T[] {
+    if (!result) {
+        return [];
+    }
     const output: T[] = [];
     result.values.forEach((e) => {
         const constructed: any = {};
@@ -34,6 +38,26 @@ export function exec(sql: string) {
     return new Promise<QueryExecResult[]>((resolve, reject) => {
         promisePool.set(promiseCount, { resolve, reject });
     });
+}
+
+export interface SearchResult {
+    name: string
+    title: string
+    excerpt: string
+}
+
+export async function searchKeyword(keyword: string) {
+    await SEARCH_READY_PROMISE;
+    const splitKeyword = keyword.trim().split(" ").map((e) => `%${e}%`);
+    if (splitKeyword.length === 1 && splitKeyword[0] === "%%") {
+        return [];
+    }
+    const result = await exec(
+        sqlString.format(`SELECT name, title, excerpt, createtime
+                          FROM posts
+                          WHERE \`content\` LIKE ? ${("AND `content` LIKE ? ").repeat(splitKeyword.length - 1)}`, splitKeyword)
+    );
+    return resultToArray<SearchResult>(result[0]);
 }
 
 fetch("/search/search.db").then((e) => {
