@@ -11,7 +11,7 @@ new SearchBox({
     const keyword = "手机 XZ";
     const splitKeyword = keyword.trim().split(" ").map((e) => `%${e}%`);
     const result = await exec(
-        sqlString.format(`SELECT name, title, excerpt
+        sqlString.format(`SELECT name, title, excerpt, createtime
                           FROM posts
                           WHERE \`content\` LIKE ? ${("AND `content` LIKE ? ").repeat(splitKeyword.length - 1)}`, splitKeyword)
     );
