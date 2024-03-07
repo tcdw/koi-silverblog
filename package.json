@@ -16,6 +16,7 @@
     "@types/node": "^20.11.20",
     "@types/sql.js": "^1.4.9",
     "autoprefixer": "^10.4.17",
+    "idb": "^8.0.0",
     "postcss": "^8.4.35",
     "sql.js": "^1.10.2",
     "sqlstring-sqlite": "^0.1.1",
