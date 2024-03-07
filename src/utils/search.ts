@@ -129,6 +129,7 @@ interface KoiSearchData extends DBSchema {
                 console.warn(`缓存校验失败！服务端返回了 ${res.status}`);
             }
             if (res.headers.get("Last-Modified") === searchData.version) {
+                console.log(`缓存校验成功！将使用本地已有数据。`);
                 initDatabase(searchData.data);
                 db.close();
                 return;
