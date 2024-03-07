@@ -55,7 +55,8 @@ export async function searchKeyword(keyword: string) {
     const result = await exec(
         sqlString.format(`SELECT name, title, excerpt, createtime
                           FROM posts
-                          WHERE \`content\` LIKE ? ${("AND `content` LIKE ? ").repeat(splitKeyword.length - 1)}`, splitKeyword)
+                          WHERE \`content\` LIKE ? ${("AND `content` LIKE ? ").repeat(splitKeyword.length - 1)}
+                          ${"AND \`title\` LIKE ? ".repeat(splitKeyword.length)}`, [...splitKeyword, ...splitKeyword])
     );
     return resultToArray<SearchResult>(result[0]);
 }
