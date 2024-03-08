@@ -72,7 +72,7 @@
                         leaveFrom="opacity-100 scale-100"
                         leaveTo="opacity-0 scale-95"
                 >
-                    <div class="w-full max-w-2xl transform overflow-hidden flex flex-col items-start rounded-xl bg-white dark:bg-primary-950 text-black dark:text-white text-left align-middle shadow-xl transition-all"
+                    <div class="w-full max-w-2xl transform flex flex-col items-start rounded-xl bg-white dark:bg-primary-950 text-black dark:text-white text-left align-middle shadow-xl transition-all"
                          use:dialog.modal>
                         <div class="relative flex-none w-full">
                             <div aria-hidden="true"
