@@ -20,6 +20,11 @@
     $: handleSearch(searchText);
 
     async function handleSearch(value: string) {
+        if (process.env.NODE_ENV !== "production") console.log("用户输入关键词", value);
+        if (!value || !value.trim()) {
+            if (process.env.NODE_ENV !== "production") console.log("无关键词，取消操作");
+            return;
+        }
         if (loading) {
             queueText = value;
             return;
@@ -82,7 +87,7 @@
                             <input id="koi-search-keyword-input"
                                    autocomplete="off"
                                    bind:value={searchText}
-                                   class="block w-full h-16 ps-16 bg-transparent text-black dark:text-white focus:outline-0 focus:bg-gray-950/5 dark:focus:bg-gray-50/5 transition-colors placeholder-opacity-30 border-b border-gray-950/5 dark:border-gray-50/5 focus:border-transparent dark:focus:border-transparent"
+                                   class="block w-full h-16 ps-16 bg-transparent text-black dark:text-white focus:outline-0 focus:bg-gray-950/5 dark:focus:bg-gray-50/5 transition-colors placeholder-opacity-30 border-b border-gray-950/5 dark:border-gray-50/5 focus:border-transparent dark:focus:border-transparent rounded-t-xl rounded-b-none"
                                    placeholder="输入搜索关键词……">
                         </div>
                         {#if searchResult && searchResult.length > 0}
