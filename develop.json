@@ -1,4 +1,4 @@
 {
-    "ViteHMRServer": "http://localhost:5173",
-	"SilverBlogServer": "http://localhost:9000"
+    "ViteHMRServer": "http://192.168.2.221:5173",
+	"SilverBlogServer": "http://192.168.2.221:9000"
 }
