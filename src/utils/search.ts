@@ -114,6 +114,14 @@ interface KoiSearchData extends DBSchema {
 
 // 数据库初始化
 (async () => {
+    const res = await fetch("/search/modify.json");
+    let checkDate: string | undefined = undefined;
+    if (res.status !== 200) {
+        console.warn(`缓存校验失败！服务端返回了 ${res.status}`);
+    } else {
+        checkDate = (await res.json()).time;
+    }
+
     const db = await openDB<KoiSearchData>("koi-search-data", 1, {
         upgrade(db) {
             db.createObjectStore('koi-search');
@@ -122,13 +130,7 @@ interface KoiSearchData extends DBSchema {
     const searchData = await db.get("koi-search", "data");
     if (searchData) {
         try {
-            const res = await fetch("/search/search.db", {
-                method: "head",
-            });
-            if (res.status !== 200) {
-                console.warn(`缓存校验失败！服务端返回了 ${res.status}`);
-            }
-            if (res.headers.get("Last-Modified") === searchData.version) {
+            if (checkDate === searchData.version) {
                 console.log(`缓存校验成功！将使用本地已有数据。`);
                 initDatabase(searchData.data);
                 db.close();
@@ -140,9 +142,10 @@ interface KoiSearchData extends DBSchema {
     }
     console.log("正在下载最新版本数据库……");
     const res = await fetch("/search/search.db");
-    const version = res.headers.get("Last-Modified") ?? "";
     const data = await res.arrayBuffer();
     initDatabase(data);
-    await db.put("koi-search", { version, data }, "data");
+    if (checkDate) {
+        await db.put("koi-search", { version: checkDate, data }, "data");
+    }
     db.close();
 })();
