@@ -2,6 +2,9 @@
 <html lang="{{ Template.Config.Language }}">
 <head>
 	{% include "./include/common-head.html" %}
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="{{ System.Project.URL }}">
+	<meta property="og:image" content="{{ System.Author.Avatar }}">
 </head>
 <body class="dark:bg-gray-950">
 	{% include "./include/header.html" %}

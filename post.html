@@ -2,6 +2,10 @@
 <html lang="{{ Template.Config.Language }}">
 <head>
     {% include "./include/common-head.html" %}
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ System.Project.URL }}/post/{{ Page.MetaData.Name }}">
+    <meta property="og:image" content="{{ System.Author.Avatar }}">
+    <link rel="canonical" href="{{ System.Project.URL }}/post/{{ Page.MetaData.Name }}" />
 </head>
 <body class="dark:bg-gray-950" data-current="{{ Page.MetaData.Name }}">
     {% include "./include/header.html" %}

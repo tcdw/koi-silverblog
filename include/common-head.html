@@ -6,15 +6,9 @@
 {%- if Page.PageInfo.Title=="index" %}
     {%- set title=System.Project.Name %}
     {%- set description=System.Project.Description %}
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ System.Project.URL }}">
-    <meta property="og:image" content="{{ System.Author.Avatar }}">
 {%- else %}
     {%- set title=Page.MetaData.Title %}
     {%- set description=Page.MetaData.Excerpt %}
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="{{ System.Project.URL }}/post/{{ Page.MetaData.Name }}">
-    <meta property="og:image" content="{{ System.Author.Avatar }}">
 {%- endif %}
 <meta property="og:title" content="{{ title }}">
 <meta property="og:description" content="{{ description }}">
