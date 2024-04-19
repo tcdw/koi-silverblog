@@ -69,9 +69,9 @@ export async function searchKeyword(keyword: string) {
     }
     const result = await exec(
         sqlString.format(`SELECT name, title, excerpt
-                          FROM posts
-                          WHERE (\`content\` LIKE ? ${("AND `content` LIKE ? ").repeat(splitKeyword.length - 1)})
-                          OR (\`title\` LIKE ? ${"AND \`title\` LIKE ? ".repeat(splitKeyword.length - 1)})`, [...splitKeyword, ...splitKeyword])
+            FROM posts
+            WHERE (\`content\` LIKE ? ${("AND `content` LIKE ? ").repeat(splitKeyword.length - 1)})
+            OR (\`title\` LIKE ? ${"AND \`title\` LIKE ? ".repeat(splitKeyword.length - 1)})`, [...splitKeyword, ...splitKeyword])
     );
     return resultToArray<SearchResult>(result[0]);
 }
@@ -117,7 +117,7 @@ interface KoiSearchData extends DBSchema {
     const res = await fetch("/search/modify.json");
     let checkDate: string | undefined = undefined;
     if (res.status !== 200) {
-        console.warn(`缓存校验失败！服务端返回了 ${res.status}`);
+        console.warn(`Failed to validate cache! Server returns ${res.status}`);
     } else {
         checkDate = (await res.json()).time;
     }
@@ -129,20 +129,16 @@ interface KoiSearchData extends DBSchema {
     });
     const searchData = await db.get("koi-search", "data");
     if (searchData) {
-        try {
-            if (checkDate === searchData.version) {
-                console.log(`缓存校验成功！将使用本地已有数据。`);
-                initDatabase(searchData.data);
-                db.close();
-                return;
-            }
-        } catch (e) {
-            console.warn("缓存校验失败！", e);
+        if (checkDate === searchData.version) {
+            console.log(`Cache validated! Local cache will be used.`);
+            initDatabase(searchData.data);
+            db.close();
+            return;
         }
     }
-    console.log("正在下载最新版本数据库……");
-    const res = await fetch("/search/search.db");
-    const data = await res.arrayBuffer();
+    console.log("Downloading the latest version of search.db");
+    const searchRes = await fetch("/search/search.db");
+    const data = await searchRes.arrayBuffer();
     initDatabase(data);
     if (checkDate) {
         await db.put("koi-search", { version: checkDate, data }, "data");
