@@ -9,7 +9,7 @@
 {%- endif -%}
 
 <!-- 顶部导航 -->
-<nav class="fixed w-full top-0 z-10">
+<nav class="fixed w-full top-0 z-40">
     <div id="koi-nav-bar"
          class="absolute -translate-x-2/4 left-2/4 h-[var(--navBar-height)] md:h-[inherit] backdrop-blur-2xl bg-white bg-opacity-80 dark:bg-primary-950 dark:bg-opacity-80 shadow-2xl [transition:top_150ms,height_400ms_cubic-bezier(.47,1.64,.41,.8)] overflow-clip rounded-[2.25rem] top-4 w-[calc(100dvw-2rem)] md:w-max"
          style="--navBar-height: 4.5rem"
@@ -67,7 +67,7 @@
 </nav>
 
 <!-- 页面头图 -->
-<header id="navBackground" class="min-h-[30rem] {{ heightClassName }} flex flex-col z-0 bg-cover bg-center custom-header-bg-image">
+<header id="navBackground" class="min-h-[30rem] {{ heightClassName }} flex flex-col z-0">
     <div class="flex-auto relative">
         {%- if largeBanner -%}
             <div id="navScrollNotice" aria-hidden="true" class="absolute h-2 w-16 -translate-x-2/4 left-2/4 bottom-4 bg-white bg-opacity-60 rounded-full transition-all"></div>
@@ -81,3 +81,5 @@
     </div>
     <div aria-hidden="true" class="flex-none h-32 w-full bg-gradient-to-b from-transparent to-white dark:to-gray-950"></div>
 </header>
+
+<div class="w-full min-h-[30rem] {{ heightClassName }} absolute left-0 top-0 -z-20 bg-cover bg-center custom-header-bg-image" aria-hidden="true"></div>
