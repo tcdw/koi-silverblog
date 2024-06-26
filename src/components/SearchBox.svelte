@@ -49,7 +49,7 @@
     });
 </script>
 
-<div class="relative z-10">
+<div class="relative z-40">
     <Transition show={$dialog.expanded}>
         <Transition
                 enter="ease-out duration-300"
