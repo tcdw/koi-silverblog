@@ -1,11 +1,12 @@
-import { defineConfig } from "vite";
+import {defineConfig} from "vite";
 
 import SilverBlog from "./tools/plugins/silverblog";
 import config from "./develop.json";
-import { svelte } from "@sveltejs/vite-plugin-svelte";
+import {svelte} from "@sveltejs/vite-plugin-svelte";
 
 import sharedConfig from "./develop.json";
 import {viteStaticCopy} from "vite-plugin-static-copy";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
     publicDir: "public/custom",
@@ -17,6 +18,7 @@ export default defineConfig({
         },
     },
     plugins: [
+        tailwindcss(),
         svelte(),
         SilverBlog(config.SilverBlogServer),
         viteStaticCopy({

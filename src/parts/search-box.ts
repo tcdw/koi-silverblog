@@ -1,5 +1,6 @@
 import SearchBox from "../components/SearchBox.svelte";
+import {mount} from "svelte";
 
-new SearchBox({
+mount(SearchBox, {
     target: document.getElementById("koi-search-box-host")!
-});
+})
