@@ -39,7 +39,6 @@ export default {
         },
         fontFamily: {
             sans: [
-                "'Varela Round'",
                 '"ChillRoundF"',
                 'ui-sans-serif',
                 'system-ui',
@@ -50,6 +49,7 @@ export default {
                 '"Noto Color Emoji"'
             ],
             mono: [
+                '"Ubuntu Mono"',
                 'ui-monospace',
                 'SFMono-Regular',
                 'Menlo',
