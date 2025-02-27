@@ -59,7 +59,7 @@
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
         >
-            <button class="fixed size-full left-0 top-0 bg-black/40 backdrop-blur-xl" on:click={dialog.close}/>
+            <button type="button" aria-label="关闭搜索框" class="fixed size-full left-0 top-0 bg-black/40 backdrop-blur-xl" on:click={dialog.close}></button>
         </Transition>
 
         <div class="fixed inset-0 overflow-y-auto">
