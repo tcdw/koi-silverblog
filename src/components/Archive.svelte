@@ -1,14 +1,13 @@
 <script lang="ts">
-    import { onMount } from "svelte";
     import { listPost } from "../api/archive";
     import type { PostMeta } from "../types/archive";
 
     const yearMap = new Map<number, PostMeta[]>();
 
-    let yearList: { label: string, value: PostMeta[] }[] = [];
-    let amount = 0;
-    let loaded = false;
-    let message = "归档页面加载中……";
+    let yearList = $state<{ label: string, value: PostMeta[] }[]>([]);
+    let amount = $state(0);
+    let loaded = $state(false);
+    let message = $state("归档页面加载中……");
 
     async function init() {
         const res = await listPost();
@@ -41,13 +40,15 @@
         yearList = yearList;
     }
 
-    onMount(async () => {
-        try {
-            await init();
-            loaded = true;
-        } catch (e) {
-            message = (e as any)?.message;
-        }
+    $effect(() => {
+        (async () => {
+            try {
+                await init();
+                loaded = true;
+            } catch (e) {
+                message = (e as any)?.message;
+            }
+        })();
     });
 </script>
 

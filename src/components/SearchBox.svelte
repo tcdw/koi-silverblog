@@ -1,23 +1,26 @@
 <script lang="ts">
     import {createDialog} from 'svelte-headlessui'
     import Transition from 'svelte-transition'
-    import {onMount} from "svelte";
     import {searchKeyword, type SearchResult} from "../utils/search.ts";
 
     const dialog = createDialog({label: '博客全文搜索'});
 
-    $: if ($dialog.expanded) {
-        document.body.classList.add("overflow-hidden");
-    } else {
-        document.body.classList.remove("overflow-hidden");
-    }
+    $effect(() => {
+        if ($dialog.expanded) {
+            document.body.classList.add("overflow-hidden");
+        } else {
+            document.body.classList.remove("overflow-hidden");
+        }
+    });
 
-    let loading = false;
-    let queueText = '';
-    let searchText = '';
-    let searchResult: SearchResult[] = [];
+    let loading = $state(false);
+    let queueText = $state('');
+    let searchText = $state('');
+    let searchResult = $state<SearchResult[]>([]);
 
-    $: handleSearch(searchText);
+    $effect(() => {
+        handleSearch(searchText);
+    });
 
     async function handleSearch(value: string) {
         if (process.env.NODE_ENV !== "production") console.log("用户输入关键词", value);
@@ -42,10 +45,13 @@
         dialog.close();
     }
 
-    onMount(() => {
-        document.getElementById("koi-search-dialog-control")?.addEventListener?.("click", () => {
-            dialog.open();
-        });
+    $effect(() => {
+        const control = document.getElementById("koi-search-dialog-control");
+        if (control) {
+            const handler = () => dialog.open();
+            control.addEventListener("click", handler);
+            return () => control.removeEventListener("click", handler);
+        }
     });
 </script>
 
@@ -59,7 +65,7 @@
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
         >
-            <button type="button" aria-label="关闭搜索框" class="fixed size-full left-0 top-0 bg-black/40 backdrop-blur-xl" on:click={dialog.close}></button>
+            <button type="button" aria-label="关闭搜索框" class="fixed size-full left-0 top-0 bg-black/40 backdrop-blur-xl" onclick={dialog.close}></button>
         </Transition>
 
         <div class="fixed inset-0 overflow-y-auto">
@@ -95,7 +101,7 @@
                                 {#each searchResult as item}
                                     <li>
                                         <a href={`/post/${item.name}`}
-                                           on:click={handleClose}
+                                           onclick={handleClose}
                                            class="flex items-start bg-gray-950/5 dark:bg-gray-50/5 rounded-md hover:bg-primary-700 dark:hover:bg-primary-700 hover:text-white active:bg-primary-700 dark:active:bg-primary-700 active:text-white">
                                             <div class="flex-none size-14 flex items-center justify-center">
                                                 <svg class="size-6" xmlns="http://www.w3.org/2000/svg" width="1em"
