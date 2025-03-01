@@ -19,7 +19,7 @@
     "autoprefixer": "^10.4.20",
     "idb": "^8.0.2",
     "postcss": "^8.5.3",
-    "sql.js": "^1.12.0",
+    "sql.js": "1.10.3",
     "sqlstring-sqlite": "^0.1.1",
     "svelte": "^5.20.5",
     "svelte-check": "^4.1.4",
