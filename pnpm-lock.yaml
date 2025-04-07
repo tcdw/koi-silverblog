@@ -36,8 +36,8 @@ importers:
         specifier: ^8.5.3
         version: 8.5.3
       sql.js:
-        specifier: 1.10.3
-        version: 1.10.3
+        specifier: ^1.12.0
+        version: 1.12.0
       sqlstring-sqlite:
         specifier: ^0.1.1
         version: 0.1.1
@@ -795,8 +795,8 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
-  sql.js@1.10.3:
-    resolution: {integrity: sha512-H46aWtQkdyjZwFQgraUruy5h/DyJBbAK3EA/WEMqiqF6PGPfKBSKBj/er3dVyYqVIoYfRf5TFM/loEjtQIrqJg==}
+  sql.js@1.12.0:
+    resolution: {integrity: sha512-Bi+43yMx/tUFZVYD4AUscmdL6NHn3gYQ+CM+YheFWLftOmrEC/Mz6Yh7E96Y2WDHYz3COSqT+LP6Z79zgrwJlA==}
 
   sqlstring-sqlite@0.1.1:
     resolution: {integrity: sha512-9CAYUJ0lEUPYJrswqiqdINNSfq3jqWo/bFJ7tufdoNeSK0Fy+d1kFTxjqO9PIqza0Kri+ZtYMfPVf1aZaFOvrQ==}
@@ -1501,7 +1501,7 @@ snapshots:
 
   source-map-js@1.2.1: {}
 
-  sql.js@1.10.3: {}
+  sql.js@1.12.0: {}
 
   sqlstring-sqlite@0.1.1: {}
 
