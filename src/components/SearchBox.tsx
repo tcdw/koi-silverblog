@@ -1,5 +1,7 @@
 import { createSignal, createEffect, onMount, onCleanup, For, Show } from "solid-js";
+import { Dialog } from "@kobalte/core/dialog";
 import { searchKeyword, type SearchResult } from "../utils/search";
+import "./SearchBox.css";
 
 export default function SearchBox() {
     const [isOpen, setIsOpen] = createSignal(false);
@@ -31,28 +33,13 @@ export default function SearchBox() {
         }
     };
 
-    const handleClose = () => {
-        setIsOpen(false);
-        setSearchText('');
-        setSearchResult([]);
-    };
-
-    const openDialog = () => {
-        setIsOpen(true);
-        // Focus input after transition
-        setTimeout(() => {
-            inputRef?.focus();
-        }, 100);
-    };
-
-    // Handle body overflow when modal is open
-    createEffect(() => {
-        if (isOpen()) {
-            document.body.classList.add("overflow-hidden");
-        } else {
-            document.body.classList.remove("overflow-hidden");
+    const handleOpenChange = (open: boolean) => {
+        setIsOpen(open);
+        if (!open) {
+            setSearchText('');
+            setSearchResult([]);
         }
-    });
+    };
 
     // Handle search text changes
     createEffect(() => {
@@ -63,42 +50,31 @@ export default function SearchBox() {
     onMount(() => {
         const control = document.getElementById("koi-search-dialog-control");
         if (control) {
-            const handler = () => openDialog();
+            const handler = () => setIsOpen(true);
             control.addEventListener("click", handler);
             onCleanup(() => control.removeEventListener("click", handler));
         }
     });
 
-    // Handle escape key
-    const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
-            handleClose();
-        }
-    };
-
-    onMount(() => {
-        document.addEventListener('keydown', handleKeyDown);
-        onCleanup(() => document.removeEventListener('keydown', handleKeyDown));
-    });
-
     return (
-        <div class="relative z-40">
-            <Show when={isOpen()}>
-                <button 
-                    type="button" 
-                    aria-label="关闭搜索框" 
-                    class="fixed size-full left-0 top-0 bg-black/40 backdrop-blur-xl transition-opacity duration-300" 
-                    onClick={handleClose}
-                />
-                
-                <div class="fixed inset-0 overflow-y-auto">
+        <Dialog open={isOpen()} onOpenChange={handleOpenChange} modal>
+            <Dialog.Portal>
+                <Dialog.Overlay class="search-dialog__overlay z-40 fixed inset-0 bg-black/40 backdrop-blur-xl" />
+                <div class="fixed inset-0 overflow-y-auto z-40">
                     <div class="flex max-h-full justify-center px-4 py-12 text-center">
-                        <div 
-                            class="w-full max-w-2xl transform flex flex-col items-start rounded-xl bg-white dark:bg-primary-950 text-black dark:text-white text-left align-middle shadow-xl transition-all duration-300"
-                            role="dialog"
-                            aria-modal="true"
-                            aria-labelledby="search-title"
+                        <Dialog.Content 
+                            class="search-dialog__content w-full max-w-2xl transform flex flex-col items-start rounded-xl bg-white dark:bg-primary-950 text-black dark:text-white text-left align-middle shadow-xl"
+                            onOpenAutoFocus={(e) => {
+                                e.preventDefault();
+                                // Focus the input after a short delay to ensure it's rendered
+                                setTimeout(() => inputRef?.focus(), 50);
+                            }}
                         >
+                            <Dialog.Title class="sr-only">博客全文搜索</Dialog.Title>
+                            <Dialog.Description class="sr-only">
+                                搜索博客文章内容，输入关键词查找相关文章
+                            </Dialog.Description>
+                            
                             <div class="relative flex-none w-full">
                                 <div 
                                     aria-hidden="true"
@@ -148,7 +124,7 @@ export default function SearchBox() {
                                             <li>
                                                 <a 
                                                     href={`/post/${item.name}`}
-                                                    onClick={handleClose}
+                                                    onClick={() => handleOpenChange(false)}
                                                     class="flex items-start bg-gray-950/5 dark:bg-gray-50/5 rounded-md hover:bg-primary-700 dark:hover:bg-primary-700 hover:text-white active:bg-primary-700 dark:active:bg-primary-700 active:text-white"
                                                 >
                                                     <div class="flex-none size-14 flex items-center justify-center">
@@ -175,10 +151,10 @@ export default function SearchBox() {
                                     </For>
                                 </ul>
                             </Show>
-                        </div>
+                        </Dialog.Content>
                     </div>
                 </div>
-            </Show>
-        </div>
+            </Dialog.Portal>
+        </Dialog>
     );
 }
