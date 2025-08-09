@@ -1,10 +1,8 @@
-import {mount} from "svelte";
+import { render } from "solid-js/web";
 
 (async () => {
     if (document.body.dataset.current === "archive") {
-        const Archive = (await import("../components/Archive.svelte")).default;
-        mount(Archive, {
-            target: document.querySelector(".prose")!,
-        })
+        const { default: Archive } = await import("../components/Archive");
+        render(() => Archive(), document.querySelector(".prose")!);
     }
 })();

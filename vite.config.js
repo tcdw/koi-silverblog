@@ -2,7 +2,7 @@ import {defineConfig} from "vite";
 
 import SilverBlog from "./tools/plugins/silverblog";
 import config from "./develop.json";
-import {svelte} from "@sveltejs/vite-plugin-svelte";
+import solidPlugin from 'vite-plugin-solid';
 
 import sharedConfig from "./develop.json";
 import {viteStaticCopy} from "vite-plugin-static-copy";
@@ -19,7 +19,7 @@ export default defineConfig({
     },
     plugins: [
         tailwindcss(),
-        svelte(),
+        solidPlugin(),
         SilverBlog(config.SilverBlogServer),
         viteStaticCopy({
             targets: [

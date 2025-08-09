@@ -1,5 +1,4 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -13,6 +12,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+
+    /* JSX */
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
 
     /* Linting */
     "strict": true,
