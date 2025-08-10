@@ -23,11 +23,12 @@ export function Comment(props: CommentProps) {
     const doRequest = async () => {
         setProgress("loading");
         try {
-            const response = await getPostsByURL(props.url);
+            const { data: response } = await getPostsByURL(props.url);
             setMeta(response.meta);
             
             const postList = response.post || [];
             const tree = buildPostTree(postList);
+            console.log(response);
             setPosts(tree);
             
             setProgress("success");

@@ -50,7 +50,7 @@ export function CommentForm(props: CommentFormProps) {
                 parent: props.targetId
             };
 
-            const result = await addPost(requestBody);
+            const { data: result } = await addPost(requestBody);
             
             // Save user info if not disabled
             if (!props.disableInfoSave) {

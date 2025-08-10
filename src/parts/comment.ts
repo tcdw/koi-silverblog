@@ -5,7 +5,7 @@ import { render } from "solid-js/web";
     if (el) {
         const { Comment } = await import("../components/comment/Comment");
         render(() => Comment({
-            url: document.location.origin + "/post/" + document.body.dataset.current + "/"
+            url: "https://www.tcdw.net/post/" + document.body.dataset.current + "/"
         }), el);
     }
 })();
