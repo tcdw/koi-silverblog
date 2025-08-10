@@ -19,6 +19,7 @@
 <meta name="description" content="{{ description }}">
 <title>{{ title }}</title>
 
+<link rel="stylesheet" fetchpriority="low" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap">
 {%- if System.DevMode -%}
     <script type="module" src="{{ Template.Extra.DevelopOption.ViteHMRServer }}/@vite/client"></script>
     <script type="module" src="{{ Template.Extra.DevelopOption.ViteHMRServer }}/src/main.ts"></script>
@@ -30,7 +31,5 @@
     {%- endfor -%}
     <link rel="stylesheet" fetchpriority="low" href="https://assets.tcdww.cn/website/blog/assets/font/ChillRoundF_v3.200/ChillRoundF.css">
 {%- endif -%}
-
-<link rel="stylesheet" fetchpriority="low" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap">
 
 {{ Template.Include.Header|safe }}
