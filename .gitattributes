@@ -1,0 +1,9 @@
+public/custom/**/*.woff2 filter=lfs diff=lfs merge=lfs -text
+public/custom/**/*.woff filter=lfs diff=lfs merge=lfs -text
+public/custom/**/*.ttf filter=lfs diff=lfs merge=lfs -text
+public/custom/**/*.otf filter=lfs diff=lfs merge=lfs -text
+public/custom/**/*.png filter=lfs diff=lfs merge=lfs -text
+public/custom/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+public/custom/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
+public/custom/**/*.gif filter=lfs diff=lfs merge=lfs -text
+public/custom/**/*.svg filter=lfs diff=lfs merge=lfs -text
