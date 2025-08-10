@@ -41,9 +41,19 @@ export default function SearchBox() {
         }
     };
 
-    // Handle search text changes
+    // Handle search text changes with debouncing
     createEffect(() => {
-        handleSearch(searchText());
+        const text = searchText();
+        if (!text.trim()) {
+            setSearchResult([]);
+            return;
+        }
+        
+        const timeoutId = setTimeout(() => {
+            handleSearch(text);
+        }, 300); // 300ms debounce
+        
+        onCleanup(() => clearTimeout(timeoutId));
     });
 
     // Set up event listener for search control
