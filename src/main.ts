@@ -5,3 +5,4 @@ import "./parts/comment.ts";
 import "./utils/search.ts";
 
 import "./main.css";
+import "./deprecated_styles/component.scss";

@@ -1,0 +1,40 @@
+@use "config";
+
+.pomment-form {
+    &__settings {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 5px 0;
+        button {
+            display: inline-block;
+            appearance: none;
+            border: 0;
+            padding: 0;
+            background-color: transparent;
+            cursor: pointer;
+            font-size: var(--font-size);
+            line-height: var(--font-size);
+            color: var(--color-primary-link);
+            &:hover {
+                color: var(--color-primary-link-hover);
+                text-decoration: underline;
+            }
+        }
+    }
+    &__grid {
+        @media (min-width: #{config.$screen-mobile}) {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+    }
+    &__action {
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        > * {
+            margin-right: 15px;
+        }
+    }
+}

@@ -1,0 +1,19 @@
+$types: "primary", "success", "warning", "danger";
+
+// 颜色设定
+$colors: (
+        "primary": #58B2DC,
+        "success": #7BA23F,
+        "warning": #D19826,
+        "danger": #F75C2F,
+);
+
+$color-black: #000;
+$color-white: #fff;
+
+// 字号设定
+$font-size-normal: 16px;
+$font-size-mobile: 14px;
+
+// 自适应设定
+$screen-mobile: 640px;

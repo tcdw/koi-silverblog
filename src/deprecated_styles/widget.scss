@@ -1,0 +1,77 @@
+@use "config";
+
+// 遍历 sass 键值对里的所有项目，生成 css 变量
+.pomment-widget {
+    @each $key, $value in config.$colors {
+        $base: $value;
+        --color-#{$key}-link: #{$base};
+        --color-#{$key}-link-hover: #{mix(config.$color-white, $base, 25%)};
+        --color-#{$key}-link-border: #{rgba($base, 40%)};
+    }
+
+    @media (prefers-color-scheme: light) {
+        color: #000000cc;
+
+        --color-strong: #000000cc;
+        --color-secondary: #00000099;
+        --color-comment: #00000066;
+        --color-separator: #00000033;
+        --color-separator-disabled: rgba(0, 0, 0, 0.1);
+        @each $key, $value in config.$colors {
+            $base: $value;
+            --color-#{$key}: #{$base};
+            --color-#{$key}-hover: #{mix(config.$color-white, $base, 20%)};
+            --color-#{$key}-press: #{mix(config.$color-black, $base, 20%)};
+            --color-#{$key}-disabled: #{mix(config.$color-white, $base, 50%)};
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        color: #ffffffcc;
+
+        --color-strong: #ffffffcc;
+        --color-secondary: #ffffff99;
+        --color-comment: #ffffff66;
+        --color-separator: #ffffff33;
+        --color-separator-disabled: rgba(255, 255, 255, 0.1);
+        @each $key, $value in config.$colors {
+            $base: mix(config.$color-black, $value, 50%);
+            --color-#{$key}: #{$base};
+            --color-#{$key}-hover: #{mix(config.$color-white, $base, 20%)};
+            --color-#{$key}-press: #{mix(config.$color-black, $base, 20%)};
+            --color-#{$key}-disabled: #{mix(config.$color-black, $base, 50%)};
+        }
+    }
+
+    --font-size: #{config.$font-size-normal};
+    @media (max-width: #{config.$screen-mobile - 1px}) {
+        --font-size: #{config.$font-size-mobile};
+    }
+
+    font-size: var(--font-size);
+    letter-spacing: 0.5px;
+
+    &__loading, &__error {
+        text-align: center;
+        padding: 30px 15px;
+        a {
+            cursor: pointer;
+            color: var(--color-primary-link);
+            text-decoration: none;
+            &:hover {
+                color: var(--color-primary-link-hover);
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+img {
+    transition: 0.2s;
+    @media (prefers-color-scheme: dark) {
+        filter: brightness(50%);
+        &:hover {
+            filter: brightness(100%);
+        }
+    }
+}
