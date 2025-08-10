@@ -39,3 +39,8 @@ export interface AddPostRequest {
     parent?: string
     challengeResponse?: string
 }
+
+export interface DisplayPost {
+    parentPost: PostSimple;
+    childPost: PostSimple[];
+}

@@ -4,6 +4,8 @@ import { render } from "solid-js/web";
     const el = document.getElementById("pomment-widget");
     if (el) {
         const { Comment } = await import("../components/comment/Comment");
-        render(() => Comment(), el);
+        render(() => Comment({
+            url: document.location.origin + "/post/" + document.body.dataset.current + "/"
+        }), el);
     }
 })();
