@@ -1,8 +1,6 @@
+import { ofetch } from "ofetch";
 import type { PostMeta, ResponseRoot } from "../types/archive";
 
 export async function listPost(): Promise<ResponseRoot<PostMeta[]>> {
-    const res = await fetch("/control/list/post", {
-        method: "get",
-    });
-    return res.json();
+  return ofetch("/control/list/post");
 }

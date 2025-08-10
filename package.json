@@ -30,6 +30,7 @@
   "packageManager": "pnpm@10.11.0",
   "dependencies": {
     "@kobalte/core": "^0.13.11",
+    "ofetch": "^1.4.1",
     "solid-transition-group": "^0.3.0"
   }
 }
