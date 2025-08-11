@@ -45,17 +45,17 @@ export function Comment(props: CommentProps) {
             return newTree;
         });
         // You can customize this success handler
-        alert("Comment submitted successfully!");
+        alert("评论发布成功！");
     };
 
     const handleSubmitError = (error: any) => {
         console.error("Failed to submit comment:", error);
         // You can customize this error handler
-        alert("Failed to submit comment. Please try again.");
+        alert("评论发布失败，请重试。");
     };
 
     const handleReplyCancel = async (): Promise<boolean> => {
-        return confirm("Are you sure you want to cancel replying? Your content will be lost.");
+        return confirm("确定要取消回复吗？已填写的内容将会丢失。");
     };
 
     onMount(() => {
@@ -100,14 +100,14 @@ export function Comment(props: CommentProps) {
             
             <Show when={progress() === "loading"}>
                 <div class="pomment-widget__loading">
-                    Initializing Pomment ...
+                    正在初始化评论系统……
                 </div>
             </Show>
             
             <Show when={progress() === "failed"}>
                 <div class="pomment-widget__error">
-                    Failed to initialize Pomment. 
-                    <a onClick={doRequest} style="cursor: pointer; text-decoration: underline;">Retry?</a>
+                    评论系统初始化失败。
+                    <a onClick={doRequest} style="cursor: pointer; text-decoration: underline;">重试？</a>
                 </div>
             </Show>
         </div>

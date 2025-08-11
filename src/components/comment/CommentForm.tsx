@@ -93,19 +93,19 @@ export function CommentForm(props: CommentFormProps) {
         <form class="pomment-form" onSubmit={handleSubmit}>
             {hasSettings() ? (
                 <div class="pomment-form__settings">
-                    <div>Commenting as <strong>{formData().name}</strong></div>
+                    <div>以 <strong>{formData().name}</strong> 的身份评论</div>
                     <div>
                         <button
                             type="button"
                             onClick={() => setHasSettings(false)}
                         >
-                            Change
+                            更改
                         </button>
                     </div>
                 </div>
             ) : (
                 <div class="pomment-form__grid">
-                    <CommentFormItem label="Name" required>
+                    <CommentFormItem label="昵称" required>
                         <CommentInput
                             id={`pomment-name__${props.targetId || 'root'}`}
                             value={formData().name}
@@ -114,7 +114,7 @@ export function CommentForm(props: CommentFormProps) {
                             required
                         />
                     </CommentFormItem>
-                    <CommentFormItem label="Email" required>
+                    <CommentFormItem label="邮箱" required>
                         <CommentInput
                             id={`pomment-email__${props.targetId || 'root'}`}
                             value={formData().email}
@@ -124,7 +124,7 @@ export function CommentForm(props: CommentFormProps) {
                             required
                         />
                     </CommentFormItem>
-                    <CommentFormItem label="Website">
+                    <CommentFormItem label="网站">
                         <CommentInput
                             id={`pomment-website__${props.targetId || 'root'}`}
                             value={formData().website}
@@ -136,7 +136,7 @@ export function CommentForm(props: CommentFormProps) {
                 </div>
             )}
             
-            <CommentFormItem label="Comment" required>
+            <CommentFormItem label="评论" required>
                 <CommentTextarea
                     id={`pomment-comment__${props.targetId || 'root'}`}
                     value={formData().content}
@@ -152,7 +152,7 @@ export function CommentForm(props: CommentFormProps) {
                     class="pomment-button pomment-button--primary"
                     disabled={loading()}
                 >
-                    {loading() ? "Submitting..." : "Submit"}
+                    {loading() ? "发布中……" : "发布评论"}
                 </button>
                 <div>
                     <input
@@ -164,7 +164,7 @@ export function CommentForm(props: CommentFormProps) {
                         name="layout"
                     />
                     <label for={`pomment-receive-email__${props.targetId || 'root'}`}>
-                        Receive Email
+                        接收邮件通知
                     </label>
                 </div>
             </div>

@@ -143,7 +143,7 @@ export function CommentItem(props: CommentItemProps) {
                     <Show when={!props.meta?.locked}>
                         <div class="pomment-comment__action">
                             <button onClick={handleReply}>
-                                {opened() ? "Cancel Reply" : "Reply"}
+                                {opened() ? "取消回复" : "回复"}
                             </button>
                         </div>
                     </Show>
