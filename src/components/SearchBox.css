@@ -11,11 +11,11 @@
 
 /* Content animations */
 .search-dialog__content {
-  animation: contentHide 300ms ease-in forwards;
+  animation: contentHide 250ms ease-in forwards;
 }
 
 .search-dialog__content[data-expanded] {
-  animation: contentShow 300ms ease-out;
+  animation: contentShow 250ms ease-out;
 }
 
 /* Keyframe definitions */
