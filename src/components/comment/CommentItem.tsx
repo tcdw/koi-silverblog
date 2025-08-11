@@ -89,7 +89,7 @@ export function CommentItem(props: CommentItemProps) {
                 <div class="flex-shrink-0 mr-[17.5px] hidden sm:block">
                     <div>
                         <img
-                            class="rounded-lg block shadow-md bg-white dark:brightness-50 dark:hover:brightness-100 transition-all"
+                            class="rounded-lg block shadow-xl bg-white dark:brightness-50 dark:hover:brightness-100 transition-all"
                             src={avatar()}
                             srcset={avatarSrcset()}
                             alt={`${props.comment.name}'s avatar`}
@@ -98,9 +98,9 @@ export function CommentItem(props: CommentItemProps) {
                     </div>
                 </div>
                 <div class="w-full">
-                    <div class="flex items-center mb-2.5">
+                    <div class="flex items-center mb-2">
                         <img
-                            class="rounded-lg block shadow-md bg-white dark:brightness-50 dark:hover:brightness-100 transition-all"
+                            class="rounded-lg me-3 block sm:hidden shadow-xl bg-white dark:brightness-50 dark:hover:brightness-100 transition-all"
                             src={avatar(true)}
                             srcset={avatarSrcset(true)}
                             alt={`${props.comment.name}'s avatar`}
@@ -109,7 +109,7 @@ export function CommentItem(props: CommentItemProps) {
                         <Show
                             when={href()}
                             fallback={
-                                <span class={`font-bold ${props.comment.byAdmin ? 'text-blue-600 dark:text-blue-400' : ''}`}>
+                                <span class={`font-bold text-base`}>
                                     {props.comment.name}
                                 </span>
                             }
@@ -118,23 +118,23 @@ export function CommentItem(props: CommentItemProps) {
                                 href={href()}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class={`font-bold ${props.comment.byAdmin ? 'text-blue-600 dark:text-blue-400' : ''}`}
+                                class={`font-bold text-base text-primary-600 dark:text-primary-400 hover:underline`}
                             >
                                 {props.comment.name}
                             </a>
                         </Show>
                         <Show when={props.comment.byAdmin}>
-                            <div class="ml-2 px-2 py-1 text-xs font-semibold text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900 rounded">MOD</div>
+                            <div class="ms-2 sm:ms-2.5 px-2 py-1 text-xs font-semibold text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900 rounded">MOD</div>
                         </Show>
                         <CommentDateTime
                             class="ml-auto text-sm text-gray-500 dark:text-gray-400"
                             datetime={props.comment.createdAt}
                         />
                     </div>
-                    <div class="text-gray-800 dark:text-gray-200 leading-relaxed">
+                    <div class="text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-wrap break-words">
                         <Show when={props.comment.parentPost}>
                             <button
-                                class="font-bold text-blue-600 dark:text-blue-400 cursor-pointer hover:underline"
+                                class="font-bold text-primary-600 dark:text-primary-400 cursor-pointer hover:underline me-1.5"
                                 onClick={handleToParent}
                             >
                                 @{props.comment.parentPost?.name}
@@ -143,9 +143,9 @@ export function CommentItem(props: CommentItemProps) {
                         {props.comment.content}
                     </div>
                     <Show when={!props.meta?.locked}>
-                        <div class="pt-2.5 mt-3 border-t border-gray-200 dark:border-gray-700">
+                        <div class="pt-2.5 mt-2.5 border-t border-gray-200 dark:border-gray-700">
                             <button 
-                                class="text-sm text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+                                class="text-base text-primary-600 dark:text-primary-400 hover:underline cursor-pointer"
                                 onClick={handleReply}
                             >
                                 {opened() ? "取消回复" : "回复"}

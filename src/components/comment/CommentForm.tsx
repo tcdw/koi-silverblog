@@ -149,7 +149,7 @@ export function CommentForm(props: CommentFormProps) {
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
                 <button
                     type="submit"
-                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors"
+                    class="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 disabled:bg-primary-300 disabled:cursor-not-allowed transition-colors"
                     disabled={loading()}
                 >
                     {loading() ? "发布中……" : "发布评论"}
