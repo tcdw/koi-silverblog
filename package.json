@@ -30,6 +30,7 @@
   "packageManager": "pnpm@10.11.0",
   "dependencies": {
     "@kobalte/core": "^0.13.11",
+    "@tanstack/solid-query": "^5.60.5",
     "date-fns": "^4.1.0",
     "ofetch": "^1.4.1",
     "solid-transition-group": "^0.3.0"

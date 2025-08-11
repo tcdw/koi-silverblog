@@ -4,8 +4,10 @@ import { render } from "solid-js/web";
     const el = document.getElementById("pomment-widget");
     if (el) {
         const { Comment } = await import("../components/comment/Comment");
-        render(() => Comment({
-            url: "https://www.tcdw.net/post/" + document.body.dataset.current + "/"
-        }), el);
+        
+        render(() => {
+            const url = "https://www.tcdw.net/post/" + (document.body.dataset.current || "") + "/";
+            return Comment({ url });
+        }, el);
     }
 })();

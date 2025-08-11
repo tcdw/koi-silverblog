@@ -1,9 +1,10 @@
-import { createSignal, createEffect, onMount, Show } from "solid-js";
+import { createEffect, Show } from "solid-js";
+import { useQuery, QueryClient, QueryClientProvider } from "@tanstack/solid-query";
 import { getPostsByURL } from "../../api/comment";
-import { buildPostTree, applyPostToTree } from "../../utils/build-tree";
+import { buildPostTree } from "../../utils/build-tree";
 import { CommentForm } from "./CommentForm";
 import { CommentGroup } from "./CommentGroup";
-import type { Meta, PostSimple, DisplayPost } from "../../types/comment";
+import type { PostSimple } from "../../types/comment";
 
 interface CommentProps {
     url: string;
@@ -13,37 +14,43 @@ interface CommentProps {
     disableInfoSave?: boolean;
 }
 
-type ProgressState = "waiting" | "loading" | "success" | "failed";
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            retry: 3,
+            retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+        },
+    },
+});
 
 export function Comment(props: CommentProps) {
-    const [progress, setProgress] = createSignal<ProgressState>("waiting");
-    const [meta, setMeta] = createSignal<Meta>();
-    const [posts, setPosts] = createSignal<DisplayPost[]>([]);
+    return (
+        <QueryClientProvider client={queryClient}>
+            <CommentBase {...props} />
+        </QueryClientProvider>
+    );
+}
 
-    const doRequest = async () => {
-        setProgress("loading");
-        try {
+export function CommentBase(props: CommentProps) {
+    const postsQuery = useQuery(() => ({
+        queryKey: ['comments', props.url],
+        queryFn: async () => {
             const { data: response } = await getPostsByURL(props.url);
-            setMeta(response.meta);
-            
             const postList = response.post || [];
             const tree = buildPostTree(postList);
-            console.log(response);
-            setPosts(tree);
-            
-            setProgress("success");
-        } catch (error) {
-            console.error("Failed to load comments:", error);
-            setProgress("failed");
-        }
-    };
+            return {
+                meta: response.meta,
+                posts: tree
+            };
+        },
+        enabled: !!props.url,
+        staleTime: 5 * 60 * 1000, // 5 minutes
+        cacheTime: 10 * 60 * 1000, // 10 minutes
+    }));
 
-    const handleSubmitSuccess = (post: PostSimple) => {
-        setPosts(prev => {
-            const newTree = [...prev];
-            applyPostToTree(post, newTree);
-            return newTree;
-        });
+    const handleSubmitSuccess = (_post: PostSimple) => {
+        // Invalidate and refetch the query to get fresh data
+        queryClient.invalidateQueries({ queryKey: ['comments', props.url] });
         // You can customize this success handler
         alert("评论发布成功！");
     };
@@ -58,22 +65,17 @@ export function Comment(props: CommentProps) {
         return confirm("确定要取消回复吗？已填写的内容将会丢失。");
     };
 
-    onMount(() => {
-        if (props.url) {
-            doRequest();
-        }
-    });
-
+    // Refetch when URL changes
     createEffect(() => {
-        if (props.url) {
-            doRequest();
+        if (props.url && postsQuery.refetch) {
+            postsQuery.refetch();
         }
     });
 
     return (
         <div class="text-black dark:text-white">
-            <Show when={progress() === "success"}>
-                <Show when={!meta()?.locked}>
+            <Show when={postsQuery.isSuccess && postsQuery.data}>
+                <Show when={!postsQuery.data!.meta?.locked}>
                     <CommentForm
                         url={props.url}
                         title={props.title || document.title}
@@ -82,10 +84,10 @@ export function Comment(props: CommentProps) {
                         disableInfoSave={props.disableInfoSave}
                     />
                 </Show>
-                <Show when={posts().length > 0}>
+                <Show when={postsQuery.data!.posts?.length > 0}>
                     <CommentGroup
-                        posts={posts()}
-                        meta={meta()}
+                        posts={postsQuery.data!.posts}
+                        meta={postsQuery.data!.meta}
                         url={props.url}
                         title={props.title || document.title}
                         gravatarBaseUrl={props.gravatarBaseUrl}
@@ -98,16 +100,16 @@ export function Comment(props: CommentProps) {
                 </Show>
             </Show>
             
-            <Show when={progress() === "loading"}>
+            <Show when={postsQuery.isLoading}>
                 <div class="text-center py-8 px-4">
                     正在初始化评论系统……
                 </div>
             </Show>
             
-            <Show when={progress() === "failed"}>
+            <Show when={postsQuery.isError}>
                 <div class="text-center py-8 px-4">
                     评论系统初始化失败。
-                    <a onClick={doRequest} style="cursor: pointer; text-decoration: underline;">重试？</a>
+                    <a onClick={() => postsQuery.refetch()} style="cursor: pointer; text-decoration: underline;">重试？</a>
                 </div>
             </Show>
         </div>
