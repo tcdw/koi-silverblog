@@ -8,7 +8,7 @@ interface CommentDateTimeProps {
 export function CommentDateTime(props: CommentDateTimeProps) {
     return (
         <time 
-            class={`pomment-datetime ${props.class || ""}`}
+            class={`text-sm text-gray-500 dark:text-gray-400 ${props.class || ""}`}
             dateTime={new Date(props.datetime).toISOString()}
         >
             {formatDateTime(props.datetime)}

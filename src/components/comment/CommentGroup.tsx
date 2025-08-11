@@ -17,10 +17,10 @@ interface CommentGroupProps {
 
 export function CommentGroup(props: CommentGroupProps) {
     return (
-        <div class="pomment-comment-group">
+        <div class="space-y-6">
             <For each={props.posts}>
                 {(displayPost) => (
-                    <div class="pomment-comment-wrapper">
+                    <div class="mb-6">
                         <CommentItem
                             comment={displayPost.parentPost}
                             meta={props.meta}
@@ -35,7 +35,7 @@ export function CommentGroup(props: CommentGroupProps) {
                         />
                         <For each={displayPost.childPost}>
                             {(childComment) => (
-                                <div class="pomment-comment-wrapper__child">
+                                <div class="ml-6 mt-4">
                                     <CommentItem
                                         comment={childComment}
                                         meta={props.meta}

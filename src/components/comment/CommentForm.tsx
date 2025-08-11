@@ -90,9 +90,9 @@ export function CommentForm(props: CommentFormProps) {
     });
 
     return (
-        <form class="pomment-form" onSubmit={handleSubmit}>
+        <form class="space-y-4" onSubmit={handleSubmit}>
             {hasSettings() ? (
-                <div class="pomment-form__settings">
+                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
                     <div>以 <strong>{formData().name}</strong> 的身份评论</div>
                     <div>
                         <button
@@ -104,7 +104,7 @@ export function CommentForm(props: CommentFormProps) {
                     </div>
                 </div>
             ) : (
-                <div class="pomment-form__grid">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <CommentFormItem label="昵称" required>
                         <CommentInput
                             id={`pomment-name__${props.targetId || 'root'}`}
@@ -146,10 +146,10 @@ export function CommentForm(props: CommentFormProps) {
                 />
             </CommentFormItem>
             
-            <div class="pomment-form__action">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
                 <button
                     type="submit"
-                    class="pomment-button pomment-button--primary"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors"
                     disabled={loading()}
                 >
                     {loading() ? "发布中……" : "发布评论"}
@@ -160,7 +160,7 @@ export function CommentForm(props: CommentFormProps) {
                         type="checkbox"
                         checked={formData().receiveEmail}
                         onChange={(e) => updateFormData('receiveEmail', e.currentTarget.checked)}
-                        class="magic-checkbox"
+                        class="sr-only peer"
                         name="layout"
                     />
                     <label for={`pomment-receive-email__${props.targetId || 'root'}`}>

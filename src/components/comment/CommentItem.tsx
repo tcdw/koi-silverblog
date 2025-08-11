@@ -81,15 +81,15 @@ export function CommentItem(props: CommentItemProps) {
     };
 
     return (
-        <div class="pomment-comment-wrapper__parent">
+        <div class="mb-6">
             <div
                 id={`comment-${props.comment.id}`}
-                class={`pomment-comment ${props.meta?.locked ? 'is-meta-locked' : ''}`}
+                class={`flex ${props.meta?.locked ? 'pb-3' : ''}`}
             >
-                <div class="pomment-comment__left">
-                    <div class="pomment-comment__avatar">
+                <div class="flex-shrink-0 mr-[17.5px] hidden sm:block">
+                    <div>
                         <img
-                            class="pomment-avatar"
+                            class="rounded-lg block shadow-md bg-white dark:brightness-50 dark:hover:brightness-100 transition-all"
                             src={avatar()}
                             srcset={avatarSrcset()}
                             alt={`${props.comment.name}'s avatar`}
@@ -97,10 +97,10 @@ export function CommentItem(props: CommentItemProps) {
                         />
                     </div>
                 </div>
-                <div class="pomment-comment__right">
-                    <div class="pomment-comment__top">
+                <div class="w-full">
+                    <div class="flex items-center mb-2.5">
                         <img
-                            class="pomment-avatar"
+                            class="rounded-lg block shadow-md bg-white dark:brightness-50 dark:hover:brightness-100 transition-all"
                             src={avatar(true)}
                             srcset={avatarSrcset(true)}
                             alt={`${props.comment.name}'s avatar`}
@@ -109,7 +109,7 @@ export function CommentItem(props: CommentItemProps) {
                         <Show
                             when={href()}
                             fallback={
-                                <span class={`pomment-comment__name ${props.comment.byAdmin ? 'is-admin' : ''}`}>
+                                <span class={`font-bold ${props.comment.byAdmin ? 'text-blue-600 dark:text-blue-400' : ''}`}>
                                     {props.comment.name}
                                 </span>
                             }
@@ -118,33 +118,36 @@ export function CommentItem(props: CommentItemProps) {
                                 href={href()}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class={`pomment-comment__name ${props.comment.byAdmin ? 'is-admin' : ''}`}
+                                class={`font-bold ${props.comment.byAdmin ? 'text-blue-600 dark:text-blue-400' : ''}`}
                             >
                                 {props.comment.name}
                             </a>
                         </Show>
                         <Show when={props.comment.byAdmin}>
-                            <div class="pomment-comment__admin">MOD</div>
+                            <div class="ml-2 px-2 py-1 text-xs font-semibold text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900 rounded">MOD</div>
                         </Show>
                         <CommentDateTime
-                            class="pomment-comment__date"
+                            class="ml-auto text-sm text-gray-500 dark:text-gray-400"
                             datetime={props.comment.createdAt}
                         />
                     </div>
-                    <div class="pomment-comment__content">
+                    <div class="text-gray-800 dark:text-gray-200 leading-relaxed">
                         <Show when={props.comment.parentPost}>
-                            <a
-                                class="pomment-comment__reply-to"
+                            <button
+                                class="font-bold text-blue-600 dark:text-blue-400 cursor-pointer hover:underline"
                                 onClick={handleToParent}
                             >
                                 @{props.comment.parentPost?.name}
-                            </a>
+                            </button>
                         </Show>
                         {props.comment.content}
                     </div>
                     <Show when={!props.meta?.locked}>
-                        <div class="pomment-comment__action">
-                            <button onClick={handleReply}>
+                        <div class="pt-2.5 mt-3 border-t border-gray-200 dark:border-gray-700">
+                            <button 
+                                class="text-sm text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+                                onClick={handleReply}
+                            >
                                 {opened() ? "取消回复" : "回复"}
                             </button>
                         </div>

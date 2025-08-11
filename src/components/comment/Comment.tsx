@@ -71,7 +71,7 @@ export function Comment(props: CommentProps) {
     });
 
     return (
-        <div class="pomment-widget text-black dark:text-white">
+        <div class="text-black dark:text-white">
             <Show when={progress() === "success"}>
                 <Show when={!meta()?.locked}>
                     <CommentForm
@@ -99,13 +99,13 @@ export function Comment(props: CommentProps) {
             </Show>
             
             <Show when={progress() === "loading"}>
-                <div class="pomment-widget__loading">
+                <div class="text-center py-8 px-4">
                     正在初始化评论系统……
                 </div>
             </Show>
             
             <Show when={progress() === "failed"}>
-                <div class="pomment-widget__error">
+                <div class="text-center py-8 px-4">
                     评论系统初始化失败。
                     <a onClick={doRequest} style="cursor: pointer; text-decoration: underline;">重试？</a>
                 </div>
