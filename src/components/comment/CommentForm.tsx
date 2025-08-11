@@ -105,7 +105,7 @@ export function CommentForm(props: CommentFormProps) {
                 </div>
             ) : (
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <CommentFormItem label="昵称" required>
+                    <CommentFormItem label="昵称" required for={`pomment-name__${props.targetId || 'root'}`}>
                         <CommentInput
                             id={`pomment-name__${props.targetId || 'root'}`}
                             value={formData().name}
@@ -114,7 +114,7 @@ export function CommentForm(props: CommentFormProps) {
                             required
                         />
                     </CommentFormItem>
-                    <CommentFormItem label="邮箱" required>
+                    <CommentFormItem label="邮箱" required for={`pomment-email__${props.targetId || 'root'}`}> 
                         <CommentInput
                             id={`pomment-email__${props.targetId || 'root'}`}
                             value={formData().email}
@@ -124,7 +124,7 @@ export function CommentForm(props: CommentFormProps) {
                             required
                         />
                     </CommentFormItem>
-                    <CommentFormItem label="网站">
+                    <CommentFormItem label="网站" for={`pomment-website__${props.targetId || 'root'}`}>
                         <CommentInput
                             id={`pomment-website__${props.targetId || 'root'}`}
                             value={formData().website}
@@ -136,7 +136,7 @@ export function CommentForm(props: CommentFormProps) {
                 </div>
             )}
             
-            <CommentFormItem label="评论" required>
+            <CommentFormItem label="评论" required for={`pomment-comment__${props.targetId || 'root'}`}>
                 <CommentTextarea
                     id={`pomment-comment__${props.targetId || 'root'}`}
                     value={formData().content}
@@ -146,10 +146,10 @@ export function CommentForm(props: CommentFormProps) {
                 />
             </CommentFormItem>
             
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <button
                     type="submit"
-                    class="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 disabled:bg-primary-300 disabled:cursor-not-allowed transition-colors"
+                    class="block rounded-md bg-indigo-600 px-4 py-2 text-center text-base font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     disabled={loading()}
                 >
                     {loading() ? "发布中……" : "发布评论"}

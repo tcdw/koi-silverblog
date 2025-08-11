@@ -47,7 +47,7 @@ export function CommentTextarea(props: CommentTextareaProps) {
             onInput={handleInput}
             placeholder={props.placeholder}
             required={props.required}
-            class={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-100 dark:disabled:bg-gray-800 resize-none ${props.class || ""}`}
+            class={`block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 ${props.class || ""}`}
             rows={3}
         />
     );

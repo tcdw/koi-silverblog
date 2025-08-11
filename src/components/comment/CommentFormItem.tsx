@@ -2,16 +2,17 @@ import { JSX } from "solid-js";
 
 interface CommentFormItemProps {
     label: string;
+    for: string;
     required?: boolean;
     children: JSX.Element;
 }
 
 export function CommentFormItem(props: CommentFormItemProps) {
     return (
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <div>
+            <label for={props.for} class="block text-base font-semibold text-gray-900 mb-2">
                 {props.label}
-                {props.required && <span class="text-red-500">*</span>}
+                {props.required && <span class="text-red-500 ms-0.5">*</span>}
             </label>
             <div>
                 {props.children}
