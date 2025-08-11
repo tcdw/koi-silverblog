@@ -47,7 +47,7 @@ export function CommentTextarea(props: CommentTextareaProps) {
             onInput={handleInput}
             placeholder={props.placeholder}
             required={props.required}
-            class={`pomment-textarea ${props.class || ""}`}
+            class={`pomment-input pomment-input--primary ${props.class || ""}`}
             rows={3}
         />
     );

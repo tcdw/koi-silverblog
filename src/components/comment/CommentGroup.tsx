@@ -35,7 +35,7 @@ export function CommentGroup(props: CommentGroupProps) {
                         />
                         <For each={displayPost.childPost}>
                             {(childComment) => (
-                                <div class="pomment-comment-child">
+                                <div class="pomment-comment-wrapper__child">
                                     <CommentItem
                                         comment={childComment}
                                         meta={props.meta}

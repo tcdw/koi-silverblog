@@ -81,7 +81,7 @@ export function CommentItem(props: CommentItemProps) {
     };
 
     return (
-        <div>
+        <div class="pomment-comment-wrapper__parent">
             <div
                 id={`comment-${props.comment.id}`}
                 class={`pomment-comment ${props.meta?.locked ? 'is-meta-locked' : ''}`}
