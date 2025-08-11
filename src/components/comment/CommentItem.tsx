@@ -89,6 +89,7 @@ export function CommentItem(props: CommentItemProps) {
                 <div class="pomment-comment__left">
                     <div class="pomment-comment__avatar">
                         <img
+                            class="pomment-avatar"
                             src={avatar()}
                             srcset={avatarSrcset()}
                             alt={`${props.comment.name}'s avatar`}
@@ -99,6 +100,7 @@ export function CommentItem(props: CommentItemProps) {
                 <div class="pomment-comment__right">
                     <div class="pomment-comment__top">
                         <img
+                            class="pomment-avatar"
                             src={avatar(true)}
                             srcset={avatarSrcset(true)}
                             alt={`${props.comment.name}'s avatar`}
