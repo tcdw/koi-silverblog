@@ -154,18 +154,9 @@ export function CommentForm(props: CommentFormProps) {
                 >
                     {loading() ? "发布中……" : "发布评论"}
                 </button>
-                <div>
-                    <input
-                        id={`pomment-receive-email__${props.targetId || 'root'}`}
-                        type="checkbox"
-                        checked={formData().receiveEmail}
-                        onChange={(e) => updateFormData('receiveEmail', e.currentTarget.checked)}
-                        class="sr-only peer"
-                        name="layout"
-                    />
-                    <label for={`pomment-receive-email__${props.targetId || 'root'}`}>
-                        接收邮件通知
-                    </label>
+                <div class="flex items-center">
+                    <input checked id={`pomment-receive-email__${props.targetId || 'root'}`} type="checkbox" value="" class="w-5 h-5" />
+                    <label for={`pomment-receive-email__${props.targetId || 'root'}`} class="ms-2 text-base font-medium text-gray-900 dark:text-gray-300">接收邮件通知</label>
                 </div>
             </div>
         </form>
