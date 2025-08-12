@@ -17,8 +17,8 @@ interface CommentItemProps {
     disableInfoSave?: boolean;
 }
 
-const AVATAR_SIZE = 70;
-const AVATAR_SIZE_SMALL = 30;
+const AVATAR_SIZE = 64;
+const AVATAR_SIZE_SMALL = 32;
 
 export function CommentItem(props: CommentItemProps) {
     const [opened, setOpened] = createSignal(false);
@@ -86,7 +86,7 @@ export function CommentItem(props: CommentItemProps) {
                 id={`comment-${props.comment.id}`}
                 class={`flex ${props.meta?.locked ? 'pb-3' : ''}`}
             >
-                <div class="flex-shrink-0 mr-[17.5px] hidden sm:block">
+                <div class="flex-shrink-0 me-4 hidden sm:block">
                     <div>
                         <img
                             class="rounded-lg block shadow-xl bg-white dark:brightness-50 dark:hover:brightness-100 transition-all"
@@ -127,7 +127,7 @@ export function CommentItem(props: CommentItemProps) {
                             <div class="ms-2 sm:ms-2.5 px-2 py-1 text-xs font-semibold text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900 rounded">MOD</div>
                         </Show>
                         <CommentDateTime
-                            class="ml-auto text-sm text-gray-500 dark:text-gray-400"
+                            class="ms-4 text-sm text-gray-400 dark:text-gray-500"
                             datetime={props.comment.createdAt}
                         />
                     </div>

@@ -35,7 +35,7 @@ export function CommentGroup(props: CommentGroupProps) {
                         />
                         <For each={displayPost.childPost}>
                             {(childComment) => (
-                                <div class="ml-6 mt-4">
+                                <div class="ms-6 sm:ms-8 mt-4">
                                     <CommentItem
                                         comment={childComment}
                                         meta={props.meta}

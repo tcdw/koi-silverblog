@@ -90,7 +90,7 @@ export function CommentForm(props: CommentFormProps) {
     });
 
     return (
-        <form class="space-y-4" onSubmit={handleSubmit}>
+        <form class="space-y-4 my-6" onSubmit={handleSubmit}>
             {hasSettings() ? (
                 <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
                     <div>以 <strong>{formData().name}</strong> 的身份评论</div>
@@ -146,10 +146,10 @@ export function CommentForm(props: CommentFormProps) {
                 />
             </CommentFormItem>
             
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4">
                 <button
                     type="submit"
-                    class="block rounded-md bg-indigo-600 px-4 py-2 text-center text-base font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    class="block rounded-md bg-primary-600 px-4 py-2 text-center text-base font-semibold text-white shadow-xs hover:bg-primary-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
                     disabled={loading()}
                 >
                     {loading() ? "发布中……" : "发布评论"}
