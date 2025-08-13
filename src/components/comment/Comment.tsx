@@ -23,15 +23,7 @@ const queryClient = new QueryClient({
     },
 });
 
-export function Comment(props: CommentProps) {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <CommentBase {...props} />
-        </QueryClientProvider>
-    );
-}
-
-export function CommentBase(props: CommentProps) {
+function CommentBase(props: CommentProps) {
     const postsQuery = useQuery(() => ({
         queryKey: ['comments', props.url],
         queryFn: async () => {
@@ -113,5 +105,13 @@ export function CommentBase(props: CommentProps) {
                 </div>
             </Show>
         </div>
+    );
+}
+
+export function Comment(props: CommentProps) {
+    return (
+        <QueryClientProvider client={queryClient}>
+            <CommentBase {...props} />
+        </QueryClientProvider>
     );
 }
