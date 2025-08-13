@@ -146,7 +146,7 @@ export function CommentForm(props: CommentFormProps) {
                 />
             </CommentFormItem>
             
-            <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                 <button
                     type="submit"
                     class="block rounded-md bg-primary-600 px-4 py-2 text-center text-base font-semibold text-white shadow-xs hover:bg-primary-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
