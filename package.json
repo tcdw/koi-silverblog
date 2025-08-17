@@ -9,16 +9,23 @@
     "preview": "vite preview --host",
     "postbuild": "node ./tools/scripts/post-build.js"
   },
-  "devDependencies": {
+  "packageManager": "pnpm@10.11.0",
+  "dependencies": {
+    "@kobalte/core": "^0.13.11",
     "@solidjs/router": "^0.15.1",
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.7",
+    "@tanstack/solid-query": "^5.60.5",
+    "@types/grecaptcha": "^3.0.9",
     "@types/node": "^22.15.21",
     "@types/sql.js": "^1.4.9",
     "autoprefixer": "^10.4.21",
+    "date-fns": "^4.1.0",
     "idb": "^8.0.3",
+    "ofetch": "^1.4.1",
     "postcss": "^8.5.3",
     "solid-js": "^1.9.8",
+    "solid-transition-group": "^0.3.0",
     "sql.js": "^1.13.0",
     "sqlstring-sqlite": "^0.1.1",
     "tailwindcss": "^4.1.7",
@@ -26,13 +33,5 @@
     "vite": "^6.3.5",
     "vite-plugin-solid": "^2.11.8",
     "vite-plugin-static-copy": "^3.0.0"
-  },
-  "packageManager": "pnpm@10.11.0",
-  "dependencies": {
-    "@kobalte/core": "^0.13.11",
-    "@tanstack/solid-query": "^5.60.5",
-    "date-fns": "^4.1.0",
-    "ofetch": "^1.4.1",
-    "solid-transition-group": "^0.3.0"
   }
 }
