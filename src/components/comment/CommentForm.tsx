@@ -13,6 +13,8 @@ interface CommentFormProps {
     onSuccess?: (post: PostSimple) => void;
     onError?: (error: any) => void;
     disableInfoSave?: boolean;
+    recaptchaSiteKey?: string | null;
+    recaptchaLoading?: boolean;
 }
 
 export function CommentForm(props: CommentFormProps) {
@@ -39,6 +41,20 @@ export function CommentForm(props: CommentFormProps) {
             setLoading(true);
             const { name, email, website, content, receiveEmail } = formData();
 
+            let challengeResponse: string | undefined = undefined;
+            
+            // Get reCAPTCHA token if site key is provided
+            if (props.recaptchaSiteKey && window.grecaptcha) {
+                try {
+                    challengeResponse = await window.grecaptcha.execute(props.recaptchaSiteKey, {
+                        action: 'submit_comment'
+                    });
+                } catch (error) {
+                    console.error('Failed to get reCAPTCHA token:', error);
+                    throw new Error('人机验证失败，请重试');
+                }
+            }
+
             const requestBody: AddPostRequest = {
                 url: props.url,
                 title: props.title,
@@ -47,7 +63,8 @@ export function CommentForm(props: CommentFormProps) {
                 website: website || undefined,
                 content,
                 receiveEmail,
-                parent: props.targetId
+                parent: props.targetId,
+                challengeResponse
             };
 
             const { data: result } = await addPost(requestBody);
@@ -149,10 +166,11 @@ export function CommentForm(props: CommentFormProps) {
             <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                 <button
                     type="submit"
-                    class="block rounded-md bg-primary-600 px-4 py-2 text-center text-base font-semibold text-white shadow-xs hover:bg-primary-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
-                    disabled={loading()}
+                    class="block rounded-md bg-primary-600 px-4 py-2 text-center text-base font-semibold text-white shadow-xs hover:bg-primary-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 disabled:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={loading() || (Boolean(props.recaptchaSiteKey) && Boolean(props.recaptchaLoading))}
+                    // disabled
                 >
-                    {loading() ? "发布中……" : "发布评论"}
+                    {loading() ? "发布中……" : props.recaptchaSiteKey && props.recaptchaLoading ? "正在初始化……" : "发布评论"}
                 </button>
                 <div class="flex items-center">
                     <input checked id={`pomment-receive-email__${props.targetId || 'root'}`} type="checkbox" value="" class="w-5 h-5" />

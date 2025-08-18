@@ -1,4 +1,4 @@
-import { createEffect, Show } from "solid-js";
+import { createEffect, Show, createSignal } from "solid-js";
 import { useQuery, QueryClient, QueryClientProvider } from "@tanstack/solid-query";
 import { getPostsByURL } from "../../api/comment";
 import { buildPostTree } from "../../utils/build-tree";
@@ -24,6 +24,9 @@ const queryClient = new QueryClient({
 });
 
 function CommentBase(props: CommentProps) {
+    const [recaptchaSiteKey, setRecaptchaSiteKey] = createSignal<string | null>(null);
+    const [recaptchaLoading, setRecaptchaLoading] = createSignal(false);
+    
     const postsQuery = useQuery(() => ({
         queryKey: ['comments', props.url],
         queryFn: async () => {
@@ -57,6 +60,51 @@ function CommentBase(props: CommentProps) {
         return confirm("确定要取消回复吗？已填写的内容将会丢失。");
     };
 
+    // Check for reCAPTCHA site key and load script
+    createEffect(() => {
+        const recaptchaElement = document.getElementById('koi-recaptcha-site-key') as HTMLInputElement;
+        if (recaptchaElement && recaptchaElement.value) {
+            const siteKey = recaptchaElement.value;
+            setRecaptchaSiteKey(siteKey);
+            setRecaptchaLoading(true);
+            
+            // Load reCAPTCHA script if not already loaded
+            if (!document.querySelector('script[src*="recaptcha"]')) {
+                const script = document.createElement('script');
+                script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+                script.async = true;
+                script.defer = true;
+                
+                script.onload = () => {
+                    // Wait for grecaptcha to be ready
+                    if (window.grecaptcha && window.grecaptcha.ready) {
+                        window.grecaptcha.ready(() => {
+                            setRecaptchaLoading(false);
+                        });
+                    } else {
+                        setRecaptchaLoading(false);
+                    }
+                };
+                
+                script.onerror = () => {
+                    console.error('Failed to load reCAPTCHA script');
+                    setRecaptchaLoading(false);
+                };
+                
+                document.head.appendChild(script);
+            } else {
+                // Script already loaded, check if grecaptcha is ready
+                if (window.grecaptcha && window.grecaptcha.ready) {
+                    window.grecaptcha.ready(() => {
+                        setRecaptchaLoading(false);
+                    });
+                } else {
+                    setRecaptchaLoading(false);
+                }
+            }
+        }
+    });
+
     // Refetch when URL changes
     createEffect(() => {
         if (props.url && postsQuery.refetch) {
@@ -74,6 +122,8 @@ function CommentBase(props: CommentProps) {
                         onSuccess={handleSubmitSuccess}
                         onError={handleSubmitError}
                         disableInfoSave={props.disableInfoSave}
+                        recaptchaSiteKey={recaptchaSiteKey()}
+                        recaptchaLoading={recaptchaLoading()}
                     />
                 </Show>
                 <Show when={postsQuery.data!.posts?.length > 0}>
