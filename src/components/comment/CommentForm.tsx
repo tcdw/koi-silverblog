@@ -1,4 +1,4 @@
-import { createSignal, onMount, JSX } from "solid-js";
+import { createSignal, onMount, JSX, Show } from "solid-js";
 import { addPost } from "../../api/comment";
 import { getPommentDefaultUser, setPommentDefaultUser } from "../../utils/storage";
 import { CommentInput } from "./CommentInput";
@@ -162,7 +162,11 @@ export function CommentForm(props: CommentFormProps) {
                     required
                 />
             </CommentFormItem>
-            
+            <Show when={props.recaptchaSiteKey}>
+            <div class="text-sm leading-normal opacity-60">This site is protected by reCAPTCHA and the Google&nbsp;
+                <a class="underline" href="https://policies.google.com/privacy">Privacy Policy</a> and&nbsp;
+                <a class="underline" href="https://policies.google.com/terms">Terms of Service</a> apply.</div>
+            </Show>
             <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                 <button
                     type="submit"
