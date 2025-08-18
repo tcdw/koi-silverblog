@@ -14,9 +14,7 @@ export function CommentFormItem(props: CommentFormItemProps) {
                 {props.label}
                 {props.required && <span class="text-red-500 ms-0.5">*</span>}
             </label>
-            <div>
-                {props.children}
-            </div>
+            <div>{props.children}</div>
         </div>
     );
 }

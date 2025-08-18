@@ -13,7 +13,7 @@ interface CommentTextareaProps {
 export function CommentTextarea(props: CommentTextareaProps) {
     let textareaRef: HTMLTextAreaElement | undefined;
 
-    const handleInput: JSX.EventHandler<HTMLTextAreaElement, InputEvent> = (e) => {
+    const handleInput: JSX.EventHandler<HTMLTextAreaElement, InputEvent> = e => {
         props.onInput(e.currentTarget.value);
         if (props.autoHeight) {
             adjustHeight();
@@ -22,8 +22,8 @@ export function CommentTextarea(props: CommentTextareaProps) {
 
     const adjustHeight = () => {
         if (textareaRef) {
-            textareaRef.style.height = 'auto';
-            textareaRef.style.height = textareaRef.scrollHeight + 'px';
+            textareaRef.style.height = "auto";
+            textareaRef.style.height = textareaRef.scrollHeight + "px";
         }
     };
 

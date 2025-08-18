@@ -38,9 +38,9 @@ export function CommentItem(props: CommentItemProps) {
         }
         const size = small ? AVATAR_SIZE_SMALL : AVATAR_SIZE;
         return getAvatarUrl(
-            props.comment.emailHashed, 
-            size, 
-            props.gravatarBaseUrl || 'https://secure.gravatar.com/avatar/'
+            props.comment.emailHashed,
+            size,
+            props.gravatarBaseUrl || "https://secure.gravatar.com/avatar/",
         );
     };
 
@@ -50,21 +50,21 @@ export function CommentItem(props: CommentItemProps) {
         }
         const size = small ? AVATAR_SIZE_SMALL : AVATAR_SIZE;
         return getAvatarSrcset(
-            props.comment.emailHashed, 
-            size, 
-            props.gravatarBaseUrl || 'https://secure.gravatar.com/avatar/'
+            props.comment.emailHashed,
+            size,
+            props.gravatarBaseUrl || "https://secure.gravatar.com/avatar/",
         );
     };
 
     const handleToParent = () => {
         const el = document.getElementById(`comment-${props.comment.parentPost?.id}`);
         if (!el) return;
-        
+
         const jumpOffset = props.jumpOffset ? Number(props.jumpOffset) : 0;
         const target = el.getBoundingClientRect().y + window.scrollY - jumpOffset - 15;
         window.scrollTo({
             top: target,
-            behavior: "smooth"
+            behavior: "smooth",
         });
     };
 
@@ -82,10 +82,7 @@ export function CommentItem(props: CommentItemProps) {
 
     return (
         <div class="mb-6">
-            <div
-                id={`comment-${props.comment.id}`}
-                class={`flex ${props.meta?.locked ? 'pb-3' : ''}`}
-            >
+            <div id={`comment-${props.comment.id}`} class={`flex ${props.meta?.locked ? "pb-3" : ""}`}>
                 <div class="flex-shrink-0 me-4 hidden sm:block">
                     <div>
                         <img
@@ -106,14 +103,7 @@ export function CommentItem(props: CommentItemProps) {
                             alt={`${props.comment.name}'s avatar`}
                             style={{ width: `${AVATAR_SIZE_SMALL}px`, height: `${AVATAR_SIZE_SMALL}px` }}
                         />
-                        <Show
-                            when={href()}
-                            fallback={
-                                <span class={`font-bold text-base`}>
-                                    {props.comment.name}
-                                </span>
-                            }
-                        >
+                        <Show when={href()} fallback={<span class={`font-bold text-base`}>{props.comment.name}</span>}>
                             <a
                                 href={href()}
                                 target="_blank"
@@ -124,7 +114,9 @@ export function CommentItem(props: CommentItemProps) {
                             </a>
                         </Show>
                         <Show when={props.comment.byAdmin}>
-                            <div class="ms-2 sm:ms-2.5 px-2 py-1 text-xs font-semibold text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900 rounded">MOD</div>
+                            <div class="ms-2 sm:ms-2.5 px-2 py-1 text-xs font-semibold text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900 rounded">
+                                MOD
+                            </div>
                         </Show>
                         <CommentDateTime
                             class="ms-4 text-sm text-gray-400 dark:text-gray-500"
@@ -144,7 +136,7 @@ export function CommentItem(props: CommentItemProps) {
                     </div>
                     <Show when={!props.meta?.locked}>
                         <div class="pt-2.5 mt-2.5 border-t border-gray-200 dark:border-gray-700">
-                            <button 
+                            <button
                                 class="text-base text-primary-600 dark:text-primary-400 hover:underline cursor-pointer"
                                 onClick={handleReply}
                             >
@@ -159,7 +151,7 @@ export function CommentItem(props: CommentItemProps) {
                     targetId={props.comment.id}
                     url={props.url}
                     title={props.title}
-                    onSuccess={(post) => {
+                    onSuccess={post => {
                         setOpened(false);
                         props.onReplySuccess?.(post);
                     }}

@@ -1,11 +1,11 @@
-import {defineConfig} from "vite";
+import { defineConfig } from "vite";
 
 import SilverBlog from "./tools/plugins/silverblog";
 import config from "./develop.json";
-import solidPlugin from 'vite-plugin-solid';
+import solidPlugin from "vite-plugin-solid";
 
 import sharedConfig from "./develop.json";
-import {viteStaticCopy} from "vite-plugin-static-copy";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
@@ -14,7 +14,7 @@ export default defineConfig({
         outDir: "public/dist",
         manifest: true,
         rollupOptions: {
-            input: 'src/main.ts',
+            input: "src/main.ts",
         },
     },
     plugins: [
@@ -24,17 +24,17 @@ export default defineConfig({
         viteStaticCopy({
             targets: [
                 {
-                    src: 'node_modules/sql.js/dist/worker.sql-wasm.js',
-                    dest: 'vendors/sql.js/'
+                    src: "node_modules/sql.js/dist/worker.sql-wasm.js",
+                    dest: "vendors/sql.js/",
                 },
                 {
-                    src: 'node_modules/sql.js/dist/sql-wasm.wasm',
-                    dest: 'vendors/sql.js/'
-                }
-            ]
-        })
+                    src: "node_modules/sql.js/dist/sql-wasm.wasm",
+                    dest: "vendors/sql.js/",
+                },
+            ],
+        }),
     ],
     server: {
         origin: sharedConfig.ViteHMRServer,
-    }
+    },
 });

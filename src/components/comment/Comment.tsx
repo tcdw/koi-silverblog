@@ -18,7 +18,7 @@ const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
             retry: 3,
-            retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+            retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
         },
     },
 });
@@ -26,16 +26,16 @@ const queryClient = new QueryClient({
 function CommentBase(props: CommentProps) {
     const [recaptchaSiteKey, setRecaptchaSiteKey] = createSignal<string | null>(null);
     const [recaptchaLoading, setRecaptchaLoading] = createSignal(false);
-    
+
     const postsQuery = useQuery(() => ({
-        queryKey: ['comments', props.url],
+        queryKey: ["comments", props.url],
         queryFn: async () => {
             const { data: response } = await getPostsByURL(props.url);
             const postList = response.post || [];
             const tree = buildPostTree(postList);
             return {
                 meta: response.meta,
-                posts: tree
+                posts: tree,
             };
         },
         enabled: !!props.url,
@@ -45,7 +45,7 @@ function CommentBase(props: CommentProps) {
 
     const handleSubmitSuccess = (_post: PostSimple) => {
         // Invalidate and refetch the query to get fresh data
-        queryClient.invalidateQueries({ queryKey: ['comments', props.url] });
+        queryClient.invalidateQueries({ queryKey: ["comments", props.url] });
         // You can customize this success handler
         alert("评论发布成功！");
     };
@@ -62,19 +62,19 @@ function CommentBase(props: CommentProps) {
 
     // Check for reCAPTCHA site key and load script
     createEffect(() => {
-        const recaptchaElement = document.getElementById('koi-recaptcha-site-key') as HTMLInputElement;
+        const recaptchaElement = document.getElementById("koi-recaptcha-site-key") as HTMLInputElement;
         if (recaptchaElement && recaptchaElement.value) {
             const siteKey = recaptchaElement.value;
             setRecaptchaSiteKey(siteKey);
             setRecaptchaLoading(true);
-            
+
             // Load reCAPTCHA script if not already loaded
             if (!document.querySelector('script[src*="recaptcha"]')) {
-                const script = document.createElement('script');
+                const script = document.createElement("script");
                 script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
                 script.async = true;
                 script.defer = true;
-                
+
                 script.onload = () => {
                     // Wait for grecaptcha to be ready
                     if (window.grecaptcha && window.grecaptcha.ready) {
@@ -85,12 +85,12 @@ function CommentBase(props: CommentProps) {
                         setRecaptchaLoading(false);
                     }
                 };
-                
+
                 script.onerror = () => {
-                    console.error('Failed to load reCAPTCHA script');
+                    console.error("Failed to load reCAPTCHA script");
                     setRecaptchaLoading(false);
                 };
-                
+
                 document.head.appendChild(script);
             } else {
                 // Script already loaded, check if grecaptcha is ready
@@ -141,17 +141,20 @@ function CommentBase(props: CommentProps) {
                     />
                 </Show>
             </Show>
-            
+
             <Show when={postsQuery.isLoading}>
-                <div class="text-center py-8 px-4">
-                    正在初始化评论系统……
-                </div>
+                <div class="text-center py-8 px-4">正在初始化评论系统……</div>
             </Show>
-            
+
             <Show when={postsQuery.isError}>
                 <div class="text-center py-8 px-4">
                     评论系统初始化失败。
-                    <a onClick={() => postsQuery.refetch()} style="cursor: pointer; text-decoration: underline;">重试？</a>
+                    <a
+                        onClick={() => postsQuery.refetch()}
+                        style={{ cursor: "pointer", "text-decoration": "underline" }}
+                    >
+                        重试？
+                    </a>
                 </div>
             </Show>
         </div>

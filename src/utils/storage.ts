@@ -4,7 +4,7 @@ interface UserInfo {
     website: string;
 }
 
-const STORAGE_KEY = 'pomment_user_info';
+const STORAGE_KEY = "pomment_user_info";
 
 export function getPommentDefaultUser(): UserInfo | null {
     try {

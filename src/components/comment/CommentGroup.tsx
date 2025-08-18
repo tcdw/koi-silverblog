@@ -19,7 +19,7 @@ export function CommentGroup(props: CommentGroupProps) {
     return (
         <div class="space-y-6">
             <For each={props.posts}>
-                {(displayPost) => (
+                {displayPost => (
                     <div class="mb-6">
                         <CommentItem
                             comment={displayPost.parentPost}
@@ -34,7 +34,7 @@ export function CommentGroup(props: CommentGroupProps) {
                             disableInfoSave={props.disableInfoSave}
                         />
                         <For each={displayPost.childPost}>
-                            {(childComment) => (
+                            {childComment => (
                                 <div class="ms-6 sm:ms-8 mt-4">
                                     <CommentItem
                                         comment={childComment}

@@ -2,10 +2,7 @@ type Handler<T> = {
     [P in keyof T]?: (value: T[P] | undefined, prevValue: T[P] | undefined, original: T) => void;
 };
 
-export function createEffectObject<T extends object>(
-    initial: T,
-    handler: Handler<T> = {}
-): T {
+export function createEffectObject<T extends object>(initial: T, handler: Handler<T> = {}): T {
     return new Proxy(initial, {
         set(target, p: string, newValue: any): boolean {
             if (handler[p as keyof T]) {
@@ -20,6 +17,6 @@ export function createEffectObject<T extends object>(
             }
             delete target[p as keyof T];
             return true;
-        }
+        },
     });
 }

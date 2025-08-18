@@ -16,7 +16,7 @@ export default function Archive() {
     const init = async () => {
         const res = await listPost();
         setAmount(res.data.length);
-        
+
         // Sort by time descending
         res.data.sort((a, b) => {
             if (a.Time > b.Time) return -1;
@@ -25,8 +25,8 @@ export default function Archive() {
         });
 
         const yearMap = new Map<number, PostMeta[]>();
-        
-        res.data.forEach((e) => {
+
+        res.data.forEach(e => {
             const year = new Date(e.Time * 1000).getFullYear();
             let handle = yearMap.get(year);
             if (!handle) {
@@ -43,7 +43,7 @@ export default function Archive() {
                 value: v,
             });
         });
-        
+
         setYearList(newYearList);
     };
 
@@ -59,18 +59,15 @@ export default function Archive() {
     });
 
     return (
-        <Show
-            when={loaded()}
-            fallback={<p>{message()}</p>}
-        >
+        <Show when={loaded()} fallback={<p>{message()}</p>}>
             <p>如今，本博客已经有 {amount()} 篇文章了呢。</p>
             <For each={yearList()}>
-                {(yearGroup) => (
+                {yearGroup => (
                     <>
                         <h2>{yearGroup.label}</h2>
                         <ul>
                             <For each={yearGroup.value}>
-                                {(post) => (
+                                {post => (
                                     <li>
                                         <a href={`/post/${post.Name}`}>{post.Title}</a>
                                     </li>

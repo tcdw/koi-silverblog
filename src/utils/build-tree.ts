@@ -12,12 +12,12 @@ export function buildPostTree(posts: PostSimple[]): DisplayPost[] {
 
     // Build comment object key-value pairs (key is ID)
     const postMap = new Map<string, PostSimple>();
-    posts.forEach((post) => {
+    posts.forEach(post => {
         postMap.set(post.id, post);
     });
 
     // Separate comments with parent and without parent into two arrays, and set references for comments with parent
-    posts.forEach((post) => {
+    posts.forEach(post => {
         if (post.parent) {
             post.parentPost = postMap.get(post.parent);
             postChild.push(post);
@@ -25,7 +25,7 @@ export function buildPostTree(posts: PostSimple[]): DisplayPost[] {
             // Keep reference consistent
             const obj = {
                 parentPost: post,
-                childPost: []
+                childPost: [],
             };
             postParent.push(obj);
             postParentMap.set(post.id, obj);
@@ -33,7 +33,7 @@ export function buildPostTree(posts: PostSimple[]): DisplayPost[] {
     });
 
     // Find corresponding parent comment for child comments and append to display object array
-    postChild.forEach((post) => {
+    postChild.forEach(post => {
         let parent = post;
         while (parent.parentPost) {
             parent = parent.parentPost;
@@ -58,7 +58,7 @@ export function buildPostTree(posts: PostSimple[]): DisplayPost[] {
     });
 
     // Sort child comments in ascending order (oldest first)
-    postParent.forEach((parent) => {
+    postParent.forEach(parent => {
         parent.childPost.sort((a, b) => {
             if (a.createdAt > b.createdAt) {
                 return 1;
@@ -77,7 +77,7 @@ export function applyPostToTree(post: PostSimple, tree: DisplayPost[]): DisplayP
     if (!post.parent) {
         tree.splice(0, 0, {
             parentPost: post,
-            childPost: []
+            childPost: [],
         });
         return tree;
     }

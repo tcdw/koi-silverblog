@@ -12,7 +12,7 @@ interface CommentInputProps {
 }
 
 export function CommentInput(props: CommentInputProps) {
-    const handleInput: JSX.EventHandler<HTMLInputElement, InputEvent> = (e) => {
+    const handleInput: JSX.EventHandler<HTMLInputElement, InputEvent> = e => {
         props.onInput(e.currentTarget.value);
     };
 

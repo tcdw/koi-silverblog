@@ -1,9 +1,6 @@
 import type { QueryExecResult } from "sql.js";
 import sqlString from "sqlstring-sqlite";
-import {
-    openDB,
-    type DBSchema
-} from 'idb';
+import { openDB, type DBSchema } from "idb";
 
 class SearchReady {
     promise: Promise<void>;
@@ -23,20 +20,20 @@ export const searchReady = new SearchReady();
 const worker = new Worker("/public/dist/vendors/sql.js/worker.sql-wasm.js");
 
 let promiseCount = 1;
-const promisePool = new Map<number, { resolve: (value: any) => void, reject: (e: any) => void }>();
+const promisePool = new Map<number, { resolve: (value: any) => void; reject: (e: any) => void }>();
 
 export function resultToArray<T = any>(result: QueryExecResult): T[] {
     if (!result) {
         return [];
     }
     const output: T[] = [];
-    result.values.forEach((e) => {
+    result.values.forEach(e => {
         const constructed: any = {};
         result.columns.forEach((f, j) => {
             constructed[f] = e[j];
-        })
+        });
         output.push(constructed);
-    })
+    });
     return output;
 }
 
@@ -56,22 +53,28 @@ export function exec(sql: string) {
 }
 
 export interface SearchResult {
-    name: string
-    title: string
-    excerpt: string
+    name: string;
+    title: string;
+    excerpt: string;
 }
 
 export async function searchKeyword(keyword: string) {
     await searchReady.promise;
-    const splitKeyword = keyword.trim().split(" ").map((e) => `%${e}%`);
+    const splitKeyword = keyword
+        .trim()
+        .split(" ")
+        .map(e => `%${e}%`);
     if (splitKeyword.length === 1 && splitKeyword[0] === "%%") {
         return [];
     }
     const result = await exec(
-        sqlString.format(`SELECT name, title, excerpt
+        sqlString.format(
+            `SELECT name, title, excerpt
             FROM posts
-            WHERE (\`content\` LIKE ? ${("AND `content` LIKE ? ").repeat(splitKeyword.length - 1)})
-            OR (\`title\` LIKE ? ${"AND \`title\` LIKE ? ".repeat(splitKeyword.length - 1)})`, [...splitKeyword, ...splitKeyword])
+            WHERE (\`content\` LIKE ? ${"AND `content` LIKE ? ".repeat(splitKeyword.length - 1)})
+            OR (\`title\` LIKE ? ${"AND \`title\` LIKE ? ".repeat(splitKeyword.length - 1)})`,
+            [...splitKeyword, ...splitKeyword],
+        ),
     );
     return resultToArray<SearchResult>(result[0]);
 }
@@ -79,7 +82,7 @@ export async function searchKeyword(keyword: string) {
 function initDatabase(buffer: ArrayBuffer) {
     worker.onmessage = () => {
         searchReady.resolve();
-        worker.onmessage = (event) => {
+        worker.onmessage = event => {
             const { data } = event;
             const got = promisePool.get(data.id);
             if (!got) {
@@ -103,7 +106,7 @@ function initDatabase(buffer: ArrayBuffer) {
 }
 
 interface KoiSearchData extends DBSchema {
-    'koi-search': {
+    "koi-search": {
         key: string;
         value: {
             data: ArrayBuffer;
@@ -124,8 +127,8 @@ interface KoiSearchData extends DBSchema {
 
     const db = await openDB<KoiSearchData>("koi-search-data", 1, {
         upgrade(db) {
-            db.createObjectStore('koi-search');
-        }
+            db.createObjectStore("koi-search");
+        },
     });
     const searchData = await db.get("koi-search", "data");
     if (searchData) {

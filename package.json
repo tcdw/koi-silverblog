@@ -7,7 +7,9 @@
     "dev": "vite --host",
     "build": "tsc && vite build",
     "preview": "vite preview --host",
-    "postbuild": "node ./tools/scripts/post-build.js"
+    "postbuild": "node ./tools/scripts/post-build.js",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.json",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx,.json --fix"
   },
   "packageManager": "pnpm@10.11.0",
   "dependencies": {
@@ -33,5 +35,15 @@
     "vite": "^6.3.5",
     "vite-plugin-solid": "^2.11.8",
     "vite-plugin-static-copy": "^3.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@eslint/json": "^0.13.1",
+    "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-solid": "^0.14.5",
+    "globals": "^16.3.0",
+    "typescript-eslint": "^8.39.1"
   }
 }

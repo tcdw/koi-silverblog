@@ -1,4 +1,4 @@
-import {createEffectObject} from "../utils/proxy.ts";
+import { createEffectObject } from "../utils/proxy.ts";
 
 const navBar = document.getElementById("koi-nav-bar")!;
 const mobileMenu = document.getElementById("koi-mobile-menu")!;
@@ -15,51 +15,55 @@ const mobileMenuItemHeight = 3.5;
 const mobileMenuItemCount = mobileMenu.querySelectorAll("li").length;
 
 // 外部参考元素
-let navBackground = document.getElementById("navBackground")!;
-let navScrollNotice = document.getElementById("navScrollNotice");
+const navBackground = document.getElementById("navBackground")!;
+const navScrollNotice = document.getElementById("navScrollNotice");
 
 // 移动端菜单按钮及动画
 let menuTimer: any;
 let menuItemTimer: any;
 
-const data = createEffectObject({
-    menuStep: 1,
-    menuStepMiddle: 1,
-    menuItemHidden: true,
-    mobileMenuOpen: false
-}, {
-    menuStep(value, prevValue) {
-        burgerBarTop.classList.remove(`burger-bar-1--s${prevValue}`);
-        burgerBarBottom.classList.remove(`burger-bar-3--s${prevValue}`);
-        burgerBarTop.classList.add(`burger-bar-1--s${value}`);
-        burgerBarBottom.classList.add(`burger-bar-3--s${value}`);
+const data = createEffectObject(
+    {
+        menuStep: 1,
+        menuStepMiddle: 1,
+        menuItemHidden: true,
+        mobileMenuOpen: false,
     },
-    menuStepMiddle(value, prevValue) {
-        burgerBarMiddle.classList.remove(`burger-bar-2--s${prevValue}`);
-        burgerBarMiddle.classList.add(`burger-bar-2--s${value}`);
+    {
+        menuStep(value, prevValue) {
+            burgerBarTop.classList.remove(`burger-bar-1--s${prevValue}`);
+            burgerBarBottom.classList.remove(`burger-bar-3--s${prevValue}`);
+            burgerBarTop.classList.add(`burger-bar-1--s${value}`);
+            burgerBarBottom.classList.add(`burger-bar-3--s${value}`);
+        },
+        menuStepMiddle(value, prevValue) {
+            burgerBarMiddle.classList.remove(`burger-bar-2--s${prevValue}`);
+            burgerBarMiddle.classList.add(`burger-bar-2--s${value}`);
+        },
+        menuItemHidden(value) {
+            if (value) {
+                mobileMenu.classList.remove("flex");
+                mobileMenu.classList.add("hidden");
+            } else {
+                mobileMenu.classList.remove("hidden");
+                mobileMenu.classList.add("flex");
+            }
+        },
+        mobileMenuOpen(value) {
+            let mobileNavHeight;
+            if (value) {
+                mobileMenuBazel.classList.remove("opacity-0");
+                mobileNavHeight =
+                    mobileNavBaseHeight + mobileMenuBaseHeight + mobileMenuItemHeight * mobileMenuItemCount;
+            } else {
+                mobileMenuBazel.classList.add("opacity-0");
+                mobileNavHeight = mobileNavBaseHeight;
+            }
+            navBar.style.setProperty("--navBar-height", mobileNavHeight + "rem");
+            mobileMenuControl.ariaExpanded = String(value);
+        },
     },
-    menuItemHidden(value) {
-        if (value) {
-            mobileMenu.classList.remove("flex");
-            mobileMenu.classList.add("hidden");
-        } else {
-            mobileMenu.classList.remove("hidden");
-            mobileMenu.classList.add("flex");
-        }
-    },
-    mobileMenuOpen(value) {
-        let mobileNavHeight;
-        if (value) {
-            mobileMenuBazel.classList.remove("opacity-0");
-            mobileNavHeight = mobileNavBaseHeight + mobileMenuBaseHeight + (mobileMenuItemHeight * mobileMenuItemCount);
-        } else {
-            mobileMenuBazel.classList.add("opacity-0");
-            mobileNavHeight = mobileNavBaseHeight;
-        }
-        navBar.style.setProperty("--navBar-height", mobileNavHeight + "rem");
-        mobileMenuControl.ariaExpanded = String(value);
-    }
-})
+);
 
 function handleMobileMenuToggle(to = !data.mobileMenuOpen) {
     data.mobileMenuOpen = to;
@@ -106,7 +110,7 @@ mobileMenuControl.addEventListener("click", () => {
     handleMobileMenuToggle();
 });
 
-mobileMenu.querySelectorAll("li a").forEach((e) => {
+mobileMenu.querySelectorAll("li a").forEach(e => {
     if (!(e instanceof HTMLElement)) {
         return;
     }

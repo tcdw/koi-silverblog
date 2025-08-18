@@ -25,33 +25,31 @@ export function CommentForm(props: CommentFormProps) {
         email: "",
         website: "",
         content: "",
-        receiveEmail: false
+        receiveEmail: false,
     });
 
     const updateFormData = (field: string, value: string | boolean) => {
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
-
-
-    const handleSubmit: JSX.EventHandler<HTMLFormElement, SubmitEvent> = async (e) => {
+    const handleSubmit: JSX.EventHandler<HTMLFormElement, SubmitEvent> = async e => {
         e.preventDefault();
-        
+
         try {
             setLoading(true);
             const { name, email, website, content, receiveEmail } = formData();
 
             let challengeResponse: string | undefined = undefined;
-            
+
             // Get reCAPTCHA token if site key is provided
             if (props.recaptchaSiteKey && window.grecaptcha) {
                 try {
                     challengeResponse = await window.grecaptcha.execute(props.recaptchaSiteKey, {
-                        action: 'submit_comment'
+                        action: "submit_comment",
                     });
                 } catch (error) {
-                    console.error('Failed to get reCAPTCHA token:', error);
-                    throw new Error('人机验证失败，请重试');
+                    console.error("Failed to get reCAPTCHA token:", error);
+                    throw new Error("人机验证失败，请重试");
                 }
             }
 
@@ -64,11 +62,11 @@ export function CommentForm(props: CommentFormProps) {
                 content,
                 receiveEmail,
                 parent: props.targetId,
-                challengeResponse
+                challengeResponse,
             };
 
             const { data: result } = await addPost(requestBody);
-            
+
             // Save user info if not disabled
             if (!props.disableInfoSave) {
                 setPommentDefaultUser({ name, email, website });
@@ -80,7 +78,7 @@ export function CommentForm(props: CommentFormProps) {
                 email: hasSettings() ? email : "",
                 website: hasSettings() ? website : "",
                 content: "",
-                receiveEmail: false
+                receiveEmail: false,
             });
 
             props.onSuccess?.(result);
@@ -100,7 +98,7 @@ export function CommentForm(props: CommentFormProps) {
                     ...prev,
                     name: userInfo.name,
                     email: userInfo.email,
-                    website: userInfo.website
+                    website: userInfo.website,
                 }));
             }
         }
@@ -110,62 +108,69 @@ export function CommentForm(props: CommentFormProps) {
         <form class="space-y-4 my-6" onSubmit={handleSubmit}>
             {hasSettings() ? (
                 <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
-                    <div>以 <strong>{formData().name}</strong> 的身份评论</div>
                     <div>
-                        <button
-                            type="button"
-                            onClick={() => setHasSettings(false)}
-                        >
+                        以 <strong>{formData().name}</strong> 的身份评论
+                    </div>
+                    <div>
+                        <button type="button" onClick={() => setHasSettings(false)}>
                             更改
                         </button>
                     </div>
                 </div>
             ) : (
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <CommentFormItem label="昵称" required for={`pomment-name__${props.targetId || 'root'}`}>
+                    <CommentFormItem label="昵称" required for={`pomment-name__${props.targetId || "root"}`}>
                         <CommentInput
-                            id={`pomment-name__${props.targetId || 'root'}`}
+                            id={`pomment-name__${props.targetId || "root"}`}
                             value={formData().name}
-                            onInput={(value) => updateFormData('name', value)}
+                            onInput={value => updateFormData("name", value)}
                             autocomplete="name"
                             required
                         />
                     </CommentFormItem>
-                    <CommentFormItem label="邮箱" required for={`pomment-email__${props.targetId || 'root'}`}> 
+                    <CommentFormItem label="邮箱" required for={`pomment-email__${props.targetId || "root"}`}>
                         <CommentInput
-                            id={`pomment-email__${props.targetId || 'root'}`}
+                            id={`pomment-email__${props.targetId || "root"}`}
                             value={formData().email}
-                            onInput={(value) => updateFormData('email', value)}
+                            onInput={value => updateFormData("email", value)}
                             type="email"
                             autocomplete="email"
                             required
                         />
                     </CommentFormItem>
-                    <CommentFormItem label="网站" for={`pomment-website__${props.targetId || 'root'}`}>
+                    <CommentFormItem label="网站" for={`pomment-website__${props.targetId || "root"}`}>
                         <CommentInput
-                            id={`pomment-website__${props.targetId || 'root'}`}
+                            id={`pomment-website__${props.targetId || "root"}`}
                             value={formData().website}
-                            onInput={(value) => updateFormData('website', value)}
+                            onInput={value => updateFormData("website", value)}
                             type="url"
                             autocomplete="url"
                         />
                     </CommentFormItem>
                 </div>
             )}
-            
-            <CommentFormItem label="评论" required for={`pomment-comment__${props.targetId || 'root'}`}>
+
+            <CommentFormItem label="评论" required for={`pomment-comment__${props.targetId || "root"}`}>
                 <CommentTextarea
-                    id={`pomment-comment__${props.targetId || 'root'}`}
+                    id={`pomment-comment__${props.targetId || "root"}`}
                     value={formData().content}
-                    onInput={(value) => updateFormData('content', value)}
+                    onInput={value => updateFormData("content", value)}
                     autoHeight
                     required
                 />
             </CommentFormItem>
             <Show when={props.recaptchaSiteKey}>
-            <div class="text-sm leading-normal opacity-60">This site is protected by reCAPTCHA and the Google&nbsp;
-                <a class="underline" href="https://policies.google.com/privacy">Privacy Policy</a> and&nbsp;
-                <a class="underline" href="https://policies.google.com/terms">Terms of Service</a> apply.</div>
+                <div class="text-sm leading-normal opacity-60">
+                    This site is protected by reCAPTCHA and the Google&nbsp;
+                    <a class="underline" href="https://policies.google.com/privacy">
+                        Privacy Policy
+                    </a>{" "}
+                    and&nbsp;
+                    <a class="underline" href="https://policies.google.com/terms">
+                        Terms of Service
+                    </a>{" "}
+                    apply.
+                </div>
             </Show>
             <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                 <button
@@ -174,11 +179,26 @@ export function CommentForm(props: CommentFormProps) {
                     disabled={loading() || (Boolean(props.recaptchaSiteKey) && Boolean(props.recaptchaLoading))}
                     // disabled
                 >
-                    {loading() ? "发布中……" : props.recaptchaSiteKey && props.recaptchaLoading ? "正在初始化……" : "发布评论"}
+                    {loading()
+                        ? "发布中……"
+                        : props.recaptchaSiteKey && props.recaptchaLoading
+                          ? "正在初始化……"
+                          : "发布评论"}
                 </button>
                 <div class="flex items-center">
-                    <input checked id={`pomment-receive-email__${props.targetId || 'root'}`} type="checkbox" value="" class="w-5 h-5" />
-                    <label for={`pomment-receive-email__${props.targetId || 'root'}`} class="ms-2 text-base font-medium text-gray-900 dark:text-gray-300">接收邮件通知</label>
+                    <input
+                        checked
+                        id={`pomment-receive-email__${props.targetId || "root"}`}
+                        type="checkbox"
+                        value=""
+                        class="w-5 h-5"
+                    />
+                    <label
+                        for={`pomment-receive-email__${props.targetId || "root"}`}
+                        class="ms-2 text-base font-medium text-gray-900 dark:text-gray-300"
+                    >
+                        接收邮件通知
+                    </label>
                 </div>
             </div>
         </form>
