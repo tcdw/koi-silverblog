@@ -19,7 +19,7 @@ export default defineConfig([
         files: ["**/*.{js,jsx,ts,tsx,solid}"],
         plugins: {
             solid: solid as any,
-            prettier: prettier as any,
+            prettier: prettier,
         },
         rules: {
             ...solid.configs.recommended.rules,
@@ -33,4 +33,9 @@ export default defineConfig([
     },
     { files: ["**/*.json"], plugins: { json }, language: "json/json", extends: ["json/recommended"] },
     eslintConfigPrettier,
+    {
+        rules: {
+            "@typescript-eslint/no-explicit-any": "off",
+        },
+    },
 ]);
