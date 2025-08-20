@@ -4,6 +4,8 @@ import { getPostsByURL } from "../../api/comment";
 import { buildPostTree } from "../../utils/build-tree";
 import { CommentForm } from "./CommentForm";
 import { CommentGroup } from "./CommentGroup";
+import { DialogProvider, DialogContainer } from "../../components/ui/dialog";
+import { useCustomDialog } from "../../components/ui/dialog/useCustomDialog";
 import type { PostSimple } from "../../types/comment";
 
 interface CommentProps {
@@ -43,21 +45,25 @@ function CommentBase(props: CommentProps) {
         cacheTime: 10 * 60 * 1000, // 10 minutes
     }));
 
-    const handleSubmitSuccess = (_post: PostSimple) => {
+    const { alert } = useCustomDialog();
+
+    const handleSubmitSuccess = async (_post: PostSimple) => {
         // Invalidate and refetch the query to get fresh data
         queryClient.invalidateQueries({ queryKey: ["comments", props.url] });
         // You can customize this success handler
-        alert("评论发布成功！");
+        await alert("评论发布成功！", "您的评论已成功发布。");
     };
 
-    const handleSubmitError = (error: any) => {
+    const handleSubmitError = async (error: any) => {
         console.error("Failed to submit comment:", error);
         // You can customize this error handler
-        alert("评论发布失败，请重试。");
+        await alert("评论发布失败", "评论发布失败，请重试。");
     };
 
+    const { confirm } = useCustomDialog();
+
     const handleReplyCancel = async (): Promise<boolean> => {
-        return confirm("确定要取消回复吗？已填写的内容将会丢失。");
+        return await confirm("取消回复", "确定要取消回复吗？已填写的内容将会丢失。");
     };
 
     // Check for reCAPTCHA site key and load script
@@ -164,7 +170,10 @@ function CommentBase(props: CommentProps) {
 export function Comment(props: CommentProps) {
     return (
         <QueryClientProvider client={queryClient}>
-            <CommentBase {...props} />
+            <DialogProvider>
+                <CommentBase {...props} />
+                <DialogContainer />
+            </DialogProvider>
         </QueryClientProvider>
     );
 }
