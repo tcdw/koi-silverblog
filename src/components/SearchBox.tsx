@@ -1,7 +1,6 @@
 import { createSignal, createEffect, onMount, onCleanup, For, Show } from "solid-js";
 import { Dialog } from "@kobalte/core/dialog";
 import { searchKeyword, type SearchResult } from "../utils/search";
-import "./SearchBox.css";
 
 export default function SearchBox() {
     const [isOpen, setIsOpen] = createSignal(false);
@@ -69,11 +68,11 @@ export default function SearchBox() {
     return (
         <Dialog open={isOpen()} onOpenChange={handleOpenChange} modal>
             <Dialog.Portal>
-                <Dialog.Overlay class="search-dialog__overlay z-40 fixed inset-0 bg-black/40 backdrop-blur-xl" />
+                <Dialog.Overlay class="z-40 fixed inset-0 bg-black/40 backdrop-blur-xl duration-300 data-[expanded]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0" />
                 <div class="fixed inset-0 overflow-y-auto z-40">
                     <div class="flex max-h-full justify-center px-4 py-12 text-center">
                         <Dialog.Content
-                            class="search-dialog__content w-full max-w-2xl transform flex flex-col items-start rounded-xl bg-white dark:bg-primary-950 text-black dark:text-white text-left align-middle shadow-xl"
+                            class="w-full max-w-2xl transform flex flex-col items-start rounded-xl bg-white dark:bg-primary-950 text-black dark:text-white text-left align-middle shadow-xl duration-300 data-[expanded]:animate-in data-[closed]:animate-out data-[closed]:fade-out-0 data-[expanded]:fade-in-0 data-[closed]:zoom-out-95 data-[expanded]:zoom-in-95"
                             onOpenAutoFocus={e => {
                                 e.preventDefault();
                                 // Focus the input after a short delay to ensure it's rendered
