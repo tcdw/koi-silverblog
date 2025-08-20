@@ -107,7 +107,7 @@ export function CommentForm(props: CommentFormProps) {
     return (
         <form class="space-y-4 my-6" onSubmit={handleSubmit}>
             {hasSettings() ? (
-                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md">
+                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md text-sm">
                     <div>
                         以 <strong>{formData().name}</strong> 的身份评论
                     </div>
@@ -172,10 +172,10 @@ export function CommentForm(props: CommentFormProps) {
                     apply.
                 </div>
             </Show>
-            <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
                 <button
                     type="submit"
-                    class="block rounded-md bg-primary-600 px-4 py-2 text-center text-base font-semibold text-white shadow-xs hover:bg-primary-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 disabled:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="block rounded-md bg-primary-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-primary-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 disabled:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={loading() || (Boolean(props.recaptchaSiteKey) && Boolean(props.recaptchaLoading))}
                     // disabled
                 >
@@ -191,11 +191,11 @@ export function CommentForm(props: CommentFormProps) {
                         id={`pomment-receive-email__${props.targetId || "root"}`}
                         type="checkbox"
                         value=""
-                        class="w-5 h-5"
+                        class="size-4"
                     />
                     <label
                         for={`pomment-receive-email__${props.targetId || "root"}`}
-                        class="ms-2 text-base font-medium text-gray-900 dark:text-gray-300"
+                        class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
                         接收邮件通知
                     </label>

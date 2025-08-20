@@ -10,7 +10,7 @@ interface CommentFormItemProps {
 export function CommentFormItem(props: CommentFormItemProps) {
     return (
         <div>
-            <label for={props.for} class="block text-base font-semibold text-gray-900 mb-2">
+            <label for={props.for} class="block text-sm font-semibold text-gray-900 mb-2">
                 {props.label}
                 {props.required && <span class="text-red-500 ms-0.5">*</span>}
             </label>

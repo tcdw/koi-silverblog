@@ -108,7 +108,7 @@ export function CommentItem(props: CommentItemProps) {
                                 href={href()}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class={`font-bold text-base text-primary-600 dark:text-primary-400 hover:underline`}
+                                class={`font-bold text-primary-600 dark:text-primary-400 hover:underline`}
                             >
                                 {props.comment.name}
                             </a>
@@ -123,7 +123,7 @@ export function CommentItem(props: CommentItemProps) {
                             datetime={props.comment.createdAt}
                         />
                     </div>
-                    <div class="text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-wrap break-words">
+                    <div class="text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-wrap break-words text-base">
                         <Show when={props.comment.parentPost}>
                             <button
                                 class="font-bold text-primary-600 dark:text-primary-400 cursor-pointer hover:underline me-1.5"
@@ -135,9 +135,9 @@ export function CommentItem(props: CommentItemProps) {
                         {props.comment.content}
                     </div>
                     <Show when={!props.meta?.locked}>
-                        <div class="pt-2.5 mt-2.5 border-t border-gray-200 dark:border-gray-700">
+                        <div class="pt-2 mt-2 border-t border-gray-200 dark:border-gray-700">
                             <button
-                                class="text-base text-primary-600 dark:text-primary-400 hover:underline cursor-pointer"
+                                class="text-sm text-primary-600 dark:text-primary-400 hover:underline cursor-pointer"
                                 onClick={handleReply}
                             >
                                 {opened() ? "取消回复" : "回复"}
