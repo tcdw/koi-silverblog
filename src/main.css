@@ -221,3 +221,5 @@
 
 ::-webkit-scrollbar-track:hover {
 }
+
+.grecaptcha-badge { visibility: hidden; }
