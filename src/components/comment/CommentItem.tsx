@@ -2,25 +2,18 @@ import { createSignal, Show } from "solid-js";
 import { CommentForm } from "./CommentForm";
 import { CommentDateTime } from "./CommentDateTime";
 import { getAvatarUrl, getAvatarSrcset } from "../../utils/format";
-import type { PostSimple, Meta } from "../../types/comment";
+import { useCommentContext } from "./CommentContext";
+import type { PostSimple } from "../../types/comment";
 
 interface CommentItemProps {
     comment: PostSimple;
-    meta?: Meta;
-    url: string;
-    title: string;
-    gravatarBaseUrl?: string;
-    jumpOffset?: number;
-    onReplySuccess?: (post: PostSimple) => void;
-    onReplyError?: (error: any) => void;
-    onReplyCancel?: () => Promise<boolean>;
-    disableInfoSave?: boolean;
 }
 
 const AVATAR_SIZE = 64;
 const AVATAR_SIZE_SMALL = 32;
 
 export function CommentItem(props: CommentItemProps) {
+    const context = useCommentContext();
     const [opened, setOpened] = createSignal(false);
 
     const href = () => {
@@ -40,7 +33,7 @@ export function CommentItem(props: CommentItemProps) {
         return getAvatarUrl(
             props.comment.emailHashed,
             size,
-            props.gravatarBaseUrl || "https://secure.gravatar.com/avatar/",
+            context.gravatarBaseUrl || "https://secure.gravatar.com/avatar/",
         );
     };
 
@@ -52,27 +45,28 @@ export function CommentItem(props: CommentItemProps) {
         return getAvatarSrcset(
             props.comment.emailHashed,
             size,
-            props.gravatarBaseUrl || "https://secure.gravatar.com/avatar/",
+            context.gravatarBaseUrl || "https://www.gravatar.com/avatar/",
         );
     };
 
     const handleToParent = () => {
-        const el = document.getElementById(`comment-${props.comment.parentPost?.id}`);
-        if (!el) return;
+        if (context.jumpOffset && props.comment.parentPost?.id) {
+            const el = document.getElementById(`comment-${props.comment.parentPost?.id}`);
+            if (!el) return;
 
-        const jumpOffset = props.jumpOffset ? Number(props.jumpOffset) : 0;
-        const target = el.getBoundingClientRect().y + window.scrollY - jumpOffset - 15;
-        window.scrollTo({
-            top: target,
-            behavior: "smooth",
-        });
+            const jumpOffset = context.jumpOffset ? Number(context.jumpOffset) : 0;
+            const target = el.getBoundingClientRect().y + window.scrollY - jumpOffset - 15;
+            window.scrollTo({
+                top: target,
+                behavior: "smooth",
+            });
+        }
     };
 
     const handleReply = async () => {
         if (opened()) {
-            // Check if form has content before closing
-            const shouldCancel = await props.onReplyCancel?.();
-            if (shouldCancel !== false) {
+            const shouldClose = await context.onReplyCancel?.();
+            if (shouldClose) {
                 setOpened(false);
             }
         } else {
@@ -82,7 +76,7 @@ export function CommentItem(props: CommentItemProps) {
 
     return (
         <div class="mb-6">
-            <div id={`comment-${props.comment.id}`} class={`flex ${props.meta?.locked ? "pb-3" : ""}`}>
+            <div id={`comment-${props.comment.id}`} class={`flex ${context.meta?.locked ? "pb-3" : ""}`}>
                 <div class="flex-shrink-0 me-4 hidden sm:block">
                     <div>
                         <img
@@ -134,7 +128,7 @@ export function CommentItem(props: CommentItemProps) {
                         </Show>
                         {props.comment.content}
                     </div>
-                    <Show when={!props.meta?.locked}>
+                    <Show when={!context.meta?.locked}>
                         <div class="pt-2 mt-2 border-t border-gray-200 dark:border-gray-700">
                             <button
                                 class="text-sm text-primary-600 dark:text-primary-400 hover:underline cursor-pointer"
@@ -147,17 +141,7 @@ export function CommentItem(props: CommentItemProps) {
                 </div>
             </div>
             <Show when={opened()}>
-                <CommentForm
-                    targetId={props.comment.id}
-                    url={props.url}
-                    title={props.title}
-                    onSuccess={post => {
-                        setOpened(false);
-                        props.onReplySuccess?.(post);
-                    }}
-                    onError={props.onReplyError}
-                    disableInfoSave={props.disableInfoSave}
-                />
+                <CommentForm targetId={props.comment.id} />
             </Show>
         </div>
     );

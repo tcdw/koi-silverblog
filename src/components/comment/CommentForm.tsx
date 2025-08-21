@@ -4,20 +4,15 @@ import { getPommentDefaultUser, setPommentDefaultUser } from "../../utils/storag
 import { CommentInput } from "./CommentInput";
 import { CommentTextarea } from "./CommentTextarea";
 import { CommentFormItem } from "./CommentFormItem";
-import type { AddPostRequest, PostSimple } from "../../types/comment";
+import { useCommentContext } from "./CommentContext";
+import type { AddPostRequest } from "../../types/comment";
 
 interface CommentFormProps {
     targetId?: string;
-    url: string;
-    title: string;
-    onSuccess?: (post: PostSimple) => void;
-    onError?: (error: any) => void;
-    disableInfoSave?: boolean;
-    recaptchaSiteKey?: string | null;
-    recaptchaLoading?: boolean;
 }
 
 export function CommentForm(props: CommentFormProps) {
+    const context = useCommentContext();
     const [loading, setLoading] = createSignal(false);
     const [hasSettings, setHasSettings] = createSignal(false);
     const [formData, setFormData] = createSignal({
@@ -42,9 +37,9 @@ export function CommentForm(props: CommentFormProps) {
             let challengeResponse: string | undefined = undefined;
 
             // Get reCAPTCHA token if site key is provided
-            if (props.recaptchaSiteKey && window.grecaptcha) {
+            if (context.recaptchaSiteKey && window.grecaptcha) {
                 try {
-                    challengeResponse = await window.grecaptcha.execute(props.recaptchaSiteKey, {
+                    challengeResponse = await window.grecaptcha.execute(context.recaptchaSiteKey, {
                         action: "submit_comment",
                     });
                 } catch (error) {
@@ -54,8 +49,8 @@ export function CommentForm(props: CommentFormProps) {
             }
 
             const requestBody: AddPostRequest = {
-                url: props.url,
-                title: props.title,
+                url: context.url,
+                title: context.title,
                 name,
                 email,
                 website: website || undefined,
@@ -68,7 +63,7 @@ export function CommentForm(props: CommentFormProps) {
             const { data: result } = await addPost(requestBody);
 
             // Save user info if not disabled
-            if (!props.disableInfoSave) {
+            if (!context.disableInfoSave) {
                 setPommentDefaultUser({ name, email, website });
             }
 
@@ -81,16 +76,16 @@ export function CommentForm(props: CommentFormProps) {
                 receiveEmail: false,
             });
 
-            props.onSuccess?.(result);
+            context.onSuccess?.(result);
         } catch (error) {
-            props.onError?.(error);
+            context.onError?.(error);
         } finally {
             setLoading(false);
         }
     };
 
     onMount(() => {
-        if (!props.disableInfoSave) {
+        if (!context.disableInfoSave) {
             const userInfo = getPommentDefaultUser();
             if (userInfo) {
                 setHasSettings(true);
@@ -159,7 +154,7 @@ export function CommentForm(props: CommentFormProps) {
                     required
                 />
             </CommentFormItem>
-            <Show when={props.recaptchaSiteKey}>
+            <Show when={context.recaptchaSiteKey}>
                 <div class="text-sm leading-normal opacity-60">
                     This site is protected by reCAPTCHA and the Google&nbsp;
                     <a class="underline" href="https://policies.google.com/privacy">
@@ -176,12 +171,12 @@ export function CommentForm(props: CommentFormProps) {
                 <button
                     type="submit"
                     class="block rounded-md bg-primary-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-primary-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 disabled:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={loading() || (Boolean(props.recaptchaSiteKey) && Boolean(props.recaptchaLoading))}
+                    disabled={loading() || (Boolean(context.recaptchaSiteKey) && Boolean(context.recaptchaLoading))}
                     // disabled
                 >
                     {loading()
                         ? "发布中……"
-                        : props.recaptchaSiteKey && props.recaptchaLoading
+                        : context.recaptchaSiteKey && context.recaptchaLoading
                           ? "正在初始化……"
                           : "发布评论"}
                 </button>

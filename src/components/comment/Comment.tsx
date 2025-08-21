@@ -1,12 +1,12 @@
-import { createEffect, Show, createSignal } from "solid-js";
-import { useQuery, QueryClient, QueryClientProvider } from "@tanstack/solid-query";
+import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/solid-query";
+import { createEffect, createMemo, createSignal, Show } from "solid-js";
 import { getPostsByURL } from "../../api/comment";
+import { DialogContainer, DialogProvider } from "../../components/ui/dialog";
+import { useCustomDialog } from "../../components/ui/dialog/useCustomDialog";
 import { buildPostTree } from "../../utils/build-tree";
+import { CommentProvider } from "./CommentContext";
 import { CommentForm } from "./CommentForm";
 import { CommentGroup } from "./CommentGroup";
-import { DialogProvider, DialogContainer } from "../../components/ui/dialog";
-import { useCustomDialog } from "../../components/ui/dialog/useCustomDialog";
-import type { PostSimple } from "../../types/comment";
 
 interface CommentProps {
     url: string;
@@ -47,7 +47,7 @@ function CommentBase(props: CommentProps) {
 
     const { alert } = useCustomDialog();
 
-    const handleSubmitSuccess = async (_post: PostSimple) => {
+    const handleSubmitSuccess = async () => {
         // Invalidate and refetch the query to get fresh data
         queryClient.invalidateQueries({ queryKey: ["comments", props.url] });
         // You can customize this success handler
@@ -118,52 +118,51 @@ function CommentBase(props: CommentProps) {
         }
     });
 
+    const contextValue = createMemo(() => ({
+        url: props.url,
+        title: props.title || document.title,
+        meta: postsQuery.data?.meta,
+        gravatarBaseUrl: props.gravatarBaseUrl,
+        jumpOffset: props.jumpOffset,
+        disableInfoSave: props.disableInfoSave,
+        recaptchaSiteKey: recaptchaSiteKey(),
+        recaptchaLoading: recaptchaLoading(),
+        onSuccess: handleSubmitSuccess,
+        onError: handleSubmitError,
+        onReplySuccess: handleSubmitSuccess,
+        onReplyError: handleSubmitError,
+        onReplyCancel: handleReplyCancel,
+    }));
+
     return (
-        <div class="text-black dark:text-white">
-            <Show when={postsQuery.isSuccess && postsQuery.data}>
-                <Show when={!postsQuery.data!.meta?.locked}>
-                    <CommentForm
-                        url={props.url}
-                        title={props.title || document.title}
-                        onSuccess={handleSubmitSuccess}
-                        onError={handleSubmitError}
-                        disableInfoSave={props.disableInfoSave}
-                        recaptchaSiteKey={recaptchaSiteKey()}
-                        recaptchaLoading={recaptchaLoading()}
-                    />
+        <CommentProvider value={contextValue()}>
+            <div class="text-black dark:text-white">
+                <Show when={postsQuery.isSuccess && postsQuery.data}>
+                    <Show when={!postsQuery.data!.meta?.locked}>
+                        <CommentForm />
+                    </Show>
+                    <Show when={postsQuery.data!.posts?.length > 0}>
+                        <CommentGroup posts={postsQuery.data!.posts} />
+                    </Show>
                 </Show>
-                <Show when={postsQuery.data!.posts?.length > 0}>
-                    <CommentGroup
-                        posts={postsQuery.data!.posts}
-                        meta={postsQuery.data!.meta}
-                        url={props.url}
-                        title={props.title || document.title}
-                        gravatarBaseUrl={props.gravatarBaseUrl}
-                        jumpOffset={props.jumpOffset}
-                        onReplySuccess={handleSubmitSuccess}
-                        onReplyError={handleSubmitError}
-                        onReplyCancel={handleReplyCancel}
-                        disableInfoSave={props.disableInfoSave}
-                    />
+
+                <Show when={postsQuery.isLoading}>
+                    <div class="text-center py-8 px-4">正在初始化评论系统……</div>
                 </Show>
-            </Show>
 
-            <Show when={postsQuery.isLoading}>
-                <div class="text-center py-8 px-4">正在初始化评论系统……</div>
-            </Show>
-
-            <Show when={postsQuery.isError}>
-                <div class="text-center py-8 px-4">
-                    评论系统初始化失败。
-                    <a
-                        onClick={() => postsQuery.refetch()}
-                        style={{ cursor: "pointer", "text-decoration": "underline" }}
-                    >
-                        重试？
-                    </a>
-                </div>
-            </Show>
-        </div>
+                <Show when={postsQuery.isError}>
+                    <div class="text-center py-8 px-4">
+                        评论系统初始化失败。
+                        <a
+                            onClick={() => postsQuery.refetch()}
+                            style={{ cursor: "pointer", "text-decoration": "underline" }}
+                        >
+                            重试？
+                        </a>
+                    </div>
+                </Show>
+            </div>
+        </CommentProvider>
     );
 }
 

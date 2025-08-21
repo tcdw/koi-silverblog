@@ -1,18 +1,9 @@
 import { For } from "solid-js";
 import { CommentItem } from "./CommentItem";
-import type { DisplayPost, Meta, PostSimple } from "../../types/comment";
+import type { DisplayPost } from "../../types/comment";
 
 interface CommentGroupProps {
     posts: DisplayPost[];
-    meta?: Meta;
-    url: string;
-    title: string;
-    gravatarBaseUrl?: string;
-    jumpOffset?: number;
-    onReplySuccess?: (post: PostSimple) => void;
-    onReplyError?: (error: any) => void;
-    onReplyCancel?: () => Promise<boolean>;
-    disableInfoSave?: boolean;
 }
 
 export function CommentGroup(props: CommentGroupProps) {
@@ -21,33 +12,11 @@ export function CommentGroup(props: CommentGroupProps) {
             <For each={props.posts}>
                 {displayPost => (
                     <div class="mb-6">
-                        <CommentItem
-                            comment={displayPost.parentPost}
-                            meta={props.meta}
-                            url={props.url}
-                            title={props.title}
-                            gravatarBaseUrl={props.gravatarBaseUrl}
-                            jumpOffset={props.jumpOffset}
-                            onReplySuccess={props.onReplySuccess}
-                            onReplyError={props.onReplyError}
-                            onReplyCancel={props.onReplyCancel}
-                            disableInfoSave={props.disableInfoSave}
-                        />
+                        <CommentItem comment={displayPost.parentPost} />
                         <For each={displayPost.childPost}>
                             {childComment => (
                                 <div class="ms-6 sm:ms-8 mt-4">
-                                    <CommentItem
-                                        comment={childComment}
-                                        meta={props.meta}
-                                        url={props.url}
-                                        title={props.title}
-                                        gravatarBaseUrl={props.gravatarBaseUrl}
-                                        jumpOffset={props.jumpOffset}
-                                        onReplySuccess={props.onReplySuccess}
-                                        onReplyError={props.onReplyError}
-                                        onReplyCancel={props.onReplyCancel}
-                                        disableInfoSave={props.disableInfoSave}
-                                    />
+                                    <CommentItem comment={childComment} />
                                 </div>
                             )}
                         </For>
