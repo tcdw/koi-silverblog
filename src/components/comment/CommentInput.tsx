@@ -25,7 +25,7 @@ export function CommentInput(props: CommentInputProps) {
             placeholder={props.placeholder}
             required={props.required}
             autocomplete={props.autocomplete}
-            class={`block w-full rounded-md bg-white px-3.5 py-2 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 ${props.class || ""}`}
+            class={`block w-full rounded-md bg-white px-3.5 py-2 text-sm text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-gray-800 dark:text-gray-100 dark:outline-gray-600 dark:placeholder:text-gray-500 dark:focus:outline-indigo-500 ${props.class || ""}`}
         />
     );
 }
