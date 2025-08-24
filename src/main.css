@@ -222,4 +222,10 @@
 ::-webkit-scrollbar-track:hover {
 }
 
-.grecaptcha-badge { visibility: hidden; }
+button {
+    cursor: pointer;
+}
+
+.grecaptcha-badge {
+    visibility: hidden;
+}
