@@ -32,6 +32,7 @@ This document outlines the migration from Svelte to SolidJS components in the ko
 ## 🔄 Next Steps Required
 
 ### 1. Install Dependencies
+
 ```bash
 pnpm install
 ```
@@ -39,6 +40,7 @@ pnpm install
 ### 2. Component Features Preserved
 
 **Archive Component:**
+
 - ✅ Fetches posts from API
 - ✅ Groups posts by year
 - ✅ Sorts by date (descending)
@@ -46,6 +48,7 @@ pnpm install
 - ✅ Responsive layout
 
 **SearchBox Component:**
+
 - ✅ Modal dialog functionality
 - ✅ Search input with debouncing
 - ✅ Search results display
@@ -65,6 +68,7 @@ pnpm install
 ### 4. Testing Required
 
 After installing dependencies, test:
+
 - [ ] Archive page loads and displays posts correctly
 - [ ] Search dialog opens when clicking search control
 - [ ] Search functionality works with keyword input

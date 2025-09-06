@@ -9,32 +9,32 @@ import { viteStaticCopy } from "vite-plugin-static-copy";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-    publicDir: "public/custom",
-    build: {
-        outDir: "public/dist",
-        manifest: true,
-        rollupOptions: {
-            input: "src/main.ts",
+  publicDir: "public/custom",
+  build: {
+    outDir: "public/dist",
+    manifest: true,
+    rollupOptions: {
+      input: "src/main.ts",
+    },
+  },
+  plugins: [
+    tailwindcss(),
+    solidPlugin(),
+    SilverBlog(config.SilverBlogServer),
+    viteStaticCopy({
+      targets: [
+        {
+          src: "node_modules/sql.js/dist/worker.sql-wasm.js",
+          dest: "vendors/sql.js/",
         },
-    },
-    plugins: [
-        tailwindcss(),
-        solidPlugin(),
-        SilverBlog(config.SilverBlogServer),
-        viteStaticCopy({
-            targets: [
-                {
-                    src: "node_modules/sql.js/dist/worker.sql-wasm.js",
-                    dest: "vendors/sql.js/",
-                },
-                {
-                    src: "node_modules/sql.js/dist/sql-wasm.wasm",
-                    dest: "vendors/sql.js/",
-                },
-            ],
-        }),
-    ],
-    server: {
-        origin: sharedConfig.ViteHMRServer,
-    },
+        {
+          src: "node_modules/sql.js/dist/sql-wasm.wasm",
+          dest: "vendors/sql.js/",
+        },
+      ],
+    }),
+  ],
+  server: {
+    origin: sharedConfig.ViteHMRServer,
+  },
 });

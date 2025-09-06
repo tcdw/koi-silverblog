@@ -1,35 +1,38 @@
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="generator" content="SilverBlog">
-<meta name="renderer" content="webkit">
-<link href="/feed/" type="application/atom+xml" rel="alternate" title="订阅「{{ System.Project.Name }}」">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<meta name="generator" content="SilverBlog" />
+<meta name="renderer" content="webkit" />
+<link href="/feed/" type="application/atom+xml" rel="alternate" title="订阅「{{ System.Project.Name }}」" />
 
-{%- if Page.PageInfo.Title=="index" %}
-    {%- set title=System.Project.Name %}
-    {%- set description=System.Project.Description %}
-{%- else %}
-    {%- set title=Page.MetaData.Title %}
-    {%- set description=Page.MetaData.Excerpt %}
-{%- endif %}
+{%- if Page.PageInfo.Title=="index" %} {%- set title=System.Project.Name %} {%- set
+description=System.Project.Description %} {%- else %} {%- set title=Page.MetaData.Title %} {%- set
+description=Page.MetaData.Excerpt %} {%- endif %}
 
-<meta property="og:title" content="{{ title }}">
-<meta property="og:description" content="{{ description }}">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:site" content="{{ Template.Config.TwitterSite }}">
-<meta name="description" content="{{ description }}">
+<meta property="og:title" content="{{ title }}" />
+<meta property="og:description" content="{{ description }}" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="{{ Template.Config.TwitterSite }}" />
+<meta name="description" content="{{ description }}" />
 <title>{{ title }}</title>
 
-<link rel="stylesheet" fetchpriority="low" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+<link
+  rel="stylesheet"
+  fetchpriority="low"
+  crossorigin="anonymous"
+  href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+/>
 {%- if System.DevMode -%}
-    <script type="module" src="{{ Template.Extra.DevelopOption.ViteHMRServer }}/@vite/client"></script>
-    <script type="module" src="{{ Template.Extra.DevelopOption.ViteHMRServer }}/src/main.ts"></script>
-    <link type="stylesheet" fetchpriority="low" href="/public/custom/fonts/ChillRoundF/ChillRoundF.css">
+<script type="module" src="{{ Template.Extra.DevelopOption.ViteHMRServer }}/@vite/client"></script>
+<script type="module" src="{{ Template.Extra.DevelopOption.ViteHMRServer }}/src/main.ts"></script>
+<link type="stylesheet" fetchpriority="low" href="/public/custom/fonts/ChillRoundF/ChillRoundF.css" />
 {%- else -%}
-    <script type="module" src="/public/dist/{{ Template.Extra.ViteBundle.JSFile }}"></script>
-    {%- for CSSItem in Template.Extra.ViteBundle.CSSFile -%}
-        <link rel="stylesheet" href="/public/dist/{{ CSSItem }}">
-    {%- endfor -%}
-    <link rel="stylesheet" fetchpriority="low" href="https://assets.tcdww.cn/website/blog/assets/font/ChillRoundF_v3.200/ChillRoundF.css">
-{%- endif -%}
-
-{{ Template.Include.Header|safe }}
+<script type="module" src="/public/dist/{{ Template.Extra.ViteBundle.JSFile }}"></script>
+{%- for CSSItem in Template.Extra.ViteBundle.CSSFile -%}
+<link rel="stylesheet" href="/public/dist/{{ CSSItem }}" />
+{%- endfor -%}
+<link
+  rel="stylesheet"
+  fetchpriority="low"
+  href="https://assets.tcdww.cn/website/blog/assets/font/ChillRoundF_v3.200/ChillRoundF.css"
+/>
+{%- endif -%} {{ Template.Include.Header|safe }}

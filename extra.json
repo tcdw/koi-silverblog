@@ -1,10 +1,10 @@
 [
-    {
-        "Key": "ViteBundle",
-        "Value": "public/dist/vite-assets.json"
-    },
-    {
-        "Key": "DevelopOption",
-        "Value": "develop.json"
-    }
+  {
+    "Key": "ViteBundle",
+    "Value": "public/dist/vite-assets.json"
+  },
+  {
+    "Key": "DevelopOption",
+    "Value": "develop.json"
+  }
 ]

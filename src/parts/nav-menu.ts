@@ -23,103 +23,102 @@ let menuTimer: any;
 let menuItemTimer: any;
 
 const data = createEffectObject(
-    {
-        menuStep: 1,
-        menuStepMiddle: 1,
-        menuItemHidden: true,
-        mobileMenuOpen: false,
+  {
+    menuStep: 1,
+    menuStepMiddle: 1,
+    menuItemHidden: true,
+    mobileMenuOpen: false,
+  },
+  {
+    menuStep(value, prevValue) {
+      burgerBarTop.classList.remove(`burger-bar-1--s${prevValue}`);
+      burgerBarBottom.classList.remove(`burger-bar-3--s${prevValue}`);
+      burgerBarTop.classList.add(`burger-bar-1--s${value}`);
+      burgerBarBottom.classList.add(`burger-bar-3--s${value}`);
     },
-    {
-        menuStep(value, prevValue) {
-            burgerBarTop.classList.remove(`burger-bar-1--s${prevValue}`);
-            burgerBarBottom.classList.remove(`burger-bar-3--s${prevValue}`);
-            burgerBarTop.classList.add(`burger-bar-1--s${value}`);
-            burgerBarBottom.classList.add(`burger-bar-3--s${value}`);
-        },
-        menuStepMiddle(value, prevValue) {
-            burgerBarMiddle.classList.remove(`burger-bar-2--s${prevValue}`);
-            burgerBarMiddle.classList.add(`burger-bar-2--s${value}`);
-        },
-        menuItemHidden(value) {
-            if (value) {
-                mobileMenu.classList.remove("flex");
-                mobileMenu.classList.add("hidden");
-            } else {
-                mobileMenu.classList.remove("hidden");
-                mobileMenu.classList.add("flex");
-            }
-        },
-        mobileMenuOpen(value) {
-            let mobileNavHeight;
-            if (value) {
-                mobileMenuBazel.classList.remove("opacity-0");
-                mobileNavHeight =
-                    mobileNavBaseHeight + mobileMenuBaseHeight + mobileMenuItemHeight * mobileMenuItemCount;
-            } else {
-                mobileMenuBazel.classList.add("opacity-0");
-                mobileNavHeight = mobileNavBaseHeight;
-            }
-            navBar.style.setProperty("--navBar-height", mobileNavHeight + "rem");
-            mobileMenuControl.ariaExpanded = String(value);
-        },
+    menuStepMiddle(value, prevValue) {
+      burgerBarMiddle.classList.remove(`burger-bar-2--s${prevValue}`);
+      burgerBarMiddle.classList.add(`burger-bar-2--s${value}`);
     },
+    menuItemHidden(value) {
+      if (value) {
+        mobileMenu.classList.remove("flex");
+        mobileMenu.classList.add("hidden");
+      } else {
+        mobileMenu.classList.remove("hidden");
+        mobileMenu.classList.add("flex");
+      }
+    },
+    mobileMenuOpen(value) {
+      let mobileNavHeight;
+      if (value) {
+        mobileMenuBazel.classList.remove("opacity-0");
+        mobileNavHeight = mobileNavBaseHeight + mobileMenuBaseHeight + mobileMenuItemHeight * mobileMenuItemCount;
+      } else {
+        mobileMenuBazel.classList.add("opacity-0");
+        mobileNavHeight = mobileNavBaseHeight;
+      }
+      navBar.style.setProperty("--navBar-height", mobileNavHeight + "rem");
+      mobileMenuControl.ariaExpanded = String(value);
+    },
+  },
 );
 
 function handleMobileMenuToggle(to = !data.mobileMenuOpen) {
-    data.mobileMenuOpen = to;
-    clearTimeout(menuTimer);
-    clearTimeout(menuItemTimer);
-    data.menuStep = 2;
+  data.mobileMenuOpen = to;
+  clearTimeout(menuTimer);
+  clearTimeout(menuItemTimer);
+  data.menuStep = 2;
 
-    // 如果菜单已经打开，执行开启动画，反之执行关闭动画
-    if (data.mobileMenuOpen) {
-        data.menuStepMiddle = 1;
-        menuTimer = setTimeout(() => {
-            data.menuStep = 3;
-            data.menuStepMiddle = 2;
-        }, 200);
-        data.menuItemHidden = false;
-    } else {
-        data.menuStepMiddle = 2;
-        menuTimer = setTimeout(() => {
-            data.menuStep = 1;
-            data.menuStepMiddle = 1;
-        }, 200);
-        menuItemTimer = setTimeout(() => {
-            data.menuItemHidden = true;
-        }, 400);
-    }
+  // 如果菜单已经打开，执行开启动画，反之执行关闭动画
+  if (data.mobileMenuOpen) {
+    data.menuStepMiddle = 1;
+    menuTimer = setTimeout(() => {
+      data.menuStep = 3;
+      data.menuStepMiddle = 2;
+    }, 200);
+    data.menuItemHidden = false;
+  } else {
+    data.menuStepMiddle = 2;
+    menuTimer = setTimeout(() => {
+      data.menuStep = 1;
+      data.menuStepMiddle = 1;
+    }, 200);
+    menuItemTimer = setTimeout(() => {
+      data.menuItemHidden = true;
+    }, 400);
+  }
 }
 
 function handleScroll() {
-    if (navBackground && window.scrollY > navBackground.getBoundingClientRect().height * (1 / 1.618)) {
-        navBar.className = navBar.dataset.classBase + " " + navBar.dataset.classNormal;
+  if (navBackground && window.scrollY > navBackground.getBoundingClientRect().height * (1 / 1.618)) {
+    navBar.className = navBar.dataset.classBase + " " + navBar.dataset.classNormal;
+  } else {
+    navBar.className = navBar.dataset.classBase + " " + navBar.dataset.classTop;
+  }
+  if (navScrollNotice) {
+    if (window.scrollY > 64) {
+      navScrollNotice.classList.add("opacity-0");
     } else {
-        navBar.className = navBar.dataset.classBase + " " + navBar.dataset.classTop;
+      navScrollNotice.classList.remove("opacity-0");
     }
-    if (navScrollNotice) {
-        if (window.scrollY > 64) {
-            navScrollNotice.classList.add("opacity-0");
-        } else {
-            navScrollNotice.classList.remove("opacity-0");
-        }
-    }
+  }
 }
 
 mobileMenuControl.addEventListener("click", () => {
-    handleMobileMenuToggle();
+  handleMobileMenuToggle();
 });
 
 mobileMenu.querySelectorAll("li a").forEach(e => {
-    if (!(e instanceof HTMLElement)) {
-        return;
-    }
-    e.addEventListener("click", () => {
-        handleMobileMenuToggle(false);
-    });
+  if (!(e instanceof HTMLElement)) {
+    return;
+  }
+  e.addEventListener("click", () => {
+    handleMobileMenuToggle(false);
+  });
 });
 
 window.addEventListener("scroll", () => {
-    handleScroll();
+  handleScroll();
 });
 handleScroll();

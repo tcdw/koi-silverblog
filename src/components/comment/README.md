@@ -50,40 +50,37 @@ src/types/
 ### Basic Usage
 
 ```tsx
-import { Comment } from './components/comment';
-import './styles/comment.css';
+import { Comment } from "./components/comment";
+import "./styles/comment.css";
 
 function MyPage() {
-    return (
-        <div>
-            <h1>My Blog Post</h1>
-            <p>Content here...</p>
-            
-            <Comment
-                url={window.location.pathname}
-                title={document.title}
-            />
-        </div>
-    );
+  return (
+    <div>
+      <h1>My Blog Post</h1>
+      <p>Content here...</p>
+
+      <Comment url={window.location.pathname} title={document.title} />
+    </div>
+  );
 }
 ```
 
 ### Advanced Usage
 
 ```tsx
-import { Comment } from './components/comment';
-import './styles/comment.css';
+import { Comment } from "./components/comment";
+import "./styles/comment.css";
 
 function MyPage() {
-    return (
-        <Comment
-            url="/blog/my-post"
-            title="My Blog Post Title"
-            gravatarBaseUrl="https://secure.gravatar.com/avatar/"
-            jumpOffset={80}
-            disableInfoSave={false}
-        />
-    );
+  return (
+    <Comment
+      url="/blog/my-post"
+      title="My Blog Post Title"
+      gravatarBaseUrl="https://secure.gravatar.com/avatar/"
+      jumpOffset={80}
+      disableInfoSave={false}
+    />
+  );
 }
 ```
 
@@ -91,89 +88,95 @@ function MyPage() {
 
 ### Comment Component Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `url` | `string` | **Required** | Unique identifier for the comment thread |
-| `title` | `string` | `document.title` | Page title for the comment thread |
-| `gravatarBaseUrl` | `string` | `'https://secure.gravatar.com/avatar/'` | Base URL for Gravatar avatars |
-| `jumpOffset` | `number` | `0` | Offset for smooth scrolling to parent comments |
-| `disableInfoSave` | `boolean` | `false` | Disable saving user info to localStorage |
+| Prop              | Type      | Default                                 | Description                                    |
+| ----------------- | --------- | --------------------------------------- | ---------------------------------------------- |
+| `url`             | `string`  | **Required**                            | Unique identifier for the comment thread       |
+| `title`           | `string`  | `document.title`                        | Page title for the comment thread              |
+| `gravatarBaseUrl` | `string`  | `'https://secure.gravatar.com/avatar/'` | Base URL for Gravatar avatars                  |
+| `jumpOffset`      | `number`  | `0`                                     | Offset for smooth scrolling to parent comments |
+| `disableInfoSave` | `boolean` | `false`                                 | Disable saving user info to localStorage       |
 
 ## API Integration
 
 The comment system expects these API endpoints:
 
 ### GET/POST `/public/posts/byUrl`
+
 Fetch comments for a specific URL.
 
 **Request:**
+
 ```json
 {
-    "url": "/blog/my-post"
+  "url": "/blog/my-post"
 }
 ```
 
 **Response:**
+
 ```json
 {
-    "meta": {
-        "title": "My Blog Post",
-        "firstPostAt": 1640995200,
-        "latestPostAt": 1640995200,
-        "amount": 5,
-        "id": "thread-id",
-        "locked": false,
-        "url": "/blog/my-post"
-    },
-    "post": [
-        {
-            "id": "comment-1",
-            "name": "John Doe",
-            "emailHashed": "hash123",
-            "website": "https://johndoe.com",
-            "parent": "",
-            "content": "Great post!",
-            "hidden": false,
-            "byAdmin": false,
-            "createdAt": 1640995200,
-            "updatedAt": 1640995200,
-            "avatar": ""
-        }
-    ]
+  "meta": {
+    "title": "My Blog Post",
+    "firstPostAt": 1640995200,
+    "latestPostAt": 1640995200,
+    "amount": 5,
+    "id": "thread-id",
+    "locked": false,
+    "url": "/blog/my-post"
+  },
+  "post": [
+    {
+      "id": "comment-1",
+      "name": "John Doe",
+      "emailHashed": "hash123",
+      "website": "https://johndoe.com",
+      "parent": "",
+      "content": "Great post!",
+      "hidden": false,
+      "byAdmin": false,
+      "createdAt": 1640995200,
+      "updatedAt": 1640995200,
+      "avatar": ""
+    }
+  ]
 }
 ```
 
 ### POST `/public/posts/add`
+
 Submit a new comment.
 
 **Request:**
+
 ```json
 {
-    "url": "/blog/my-post",
-    "title": "My Blog Post",
-    "name": "John Doe",
-    "email": "john@example.com",
-    "website": "https://johndoe.com",
-    "content": "This is my comment",
-    "receiveEmail": true,
-    "parent": "comment-1"
+  "url": "/blog/my-post",
+  "title": "My Blog Post",
+  "name": "John Doe",
+  "email": "john@example.com",
+  "website": "https://johndoe.com",
+  "content": "This is my comment",
+  "receiveEmail": true,
+  "parent": "comment-1"
 }
 ```
 
 **Response:**
+
 ```json
 {
-    "id": "comment-2",
-    "name": "John Doe",
-    "emailHashed": "hash123",
-    "website": "https://johndoe.com",
-    "parent": "comment-1",
-    "content": "This is my comment",
-    "hidden": false,
-    "byAdmin": false,
-    "createdAt": 1640995260,
-    "updatedAt": 1640995260,
-    "avatar": ""
+  "id": "comment-2",
+  "name": "John Doe",
+  "emailHashed": "hash123",
+  "website": "https://johndoe.com",
+  "parent": "comment-1",
+  "content": "This is my comment",
+  "hidden": false,
+  "byAdmin": false,
+  "createdAt": 1640995260,
+  "updatedAt": 1640995260,
+  "avatar": ""
 }
 ```
 
@@ -193,21 +196,23 @@ You can customize the appearance by overriding CSS variables or classes:
 
 ```css
 .pomment-widget {
-    --primary-color: #your-color;
-    --border-radius: 8px;
-    --spacing: 20px;
+  --primary-color: #your-color;
+  --border-radius: 8px;
+  --spacing: 20px;
 }
 ```
 
 ## Differences from Vue 3 Version
 
 ### Architectural Changes
+
 - **Reactivity**: Uses SolidJS signals instead of Vue's reactivity system
 - **Component Structure**: Functional components instead of Vue SFC format
 - **State Management**: Local state with signals instead of Vue's ref/reactive
 - **Event Handling**: SolidJS event handlers instead of Vue's @event syntax
 
 ### Feature Parity
+
 - ✅ Comment loading and display
 - ✅ Threaded replies
 - ✅ Form submission and validation
@@ -219,6 +224,7 @@ You can customize the appearance by overriding CSS variables or classes:
 - ✅ Smooth scrolling to parent comments
 
 ### Missing Features (from Vue version)
+
 - reCAPTCHA integration (can be added if needed)
 - Custom event handlers for submit success/error (simplified to props)
 - Shadow DOM support (not typically needed in SolidJS)

@@ -1,36 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="{{ Template.Config.Language }}">
-<head>
-	{% include "./include/common-head.html" %}
-	<meta property="og:type" content="article">
-	<meta property="og:url" content="{{ System.Project.URL }}/page/{{ Page.MetaData.Name }}">
-	<meta property="og:image" content="{{ System.Author.Avatar }}">
-	<link rel="canonical" href="{{ System.Project.URL }}/page/{{ Page.MetaData.Name }}" />
-</head>
-<body class="dark:bg-gray-950" data-current="{{ Page.MetaData.Name }}">
-{% include "./include/header.html" %}
-<div class="flex justify-center -mt-32 relative md:px-4 xl:px-0 xl:gap-4">
-	<main class="w-full max-w-4xl relative z-10 p-5 md:p-6">
-		<div class="mb-8">
-			<article class="text-black dark:text-white">
-				<h2 class="text-3xl font-bold leading-normal">{{ Page.MetaData.Title }}</h2>
-				{% if Page.MetaData.Name == "links" %}
-					<div class="mt-6">
-						{{ Page.Content|safe }}
-					</div>
-				{% else %}
-					<div class="prose prose-slate dark:prose-invert max-w-none prose-a:no-underline prose-a:border-accent-200 dark:prose-a:border-accent-900 prose-a:border-b-2 prose-a:border-dashed prose-a:text-accent-600 dark:prose-a:text-accent-400 prose-a:transition-colors prose-img:rounded-lg prose-thead:border-b-2 prose-th:text-base prose-th:leading-8 prose-td:text-base prose-td:leading-8 prose-li:my-0.5 mt-6">
-						{{ Page.Content|safe }}
-					</div>
-				{% endif %}
-			</article>
-			<div class="mt-8" id="pomment-widget">
-				{{ Template.Include.Comment|safe }}
-			</div>
-		</div>
-	</main>
-	<div class="w-full max-w-4xl h-64 absolute bg-white/70 dark:bg-gray-950/70 md:rounded-3xl backdrop-blur-xl" aria-hidden="true"></div>
-</div>
-{% include "./include/footer.html" %}
-</body>
+  <head>
+    {% include "./include/common-head.html" %}
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="{{ System.Project.URL }}/page/{{ Page.MetaData.Name }}" />
+    <meta property="og:image" content="{{ System.Author.Avatar }}" />
+    <link rel="canonical" href="{{ System.Project.URL }}/page/{{ Page.MetaData.Name }}" />
+  </head>
+  <body class="dark:bg-gray-950" data-current="{{ Page.MetaData.Name }}">
+    {% include "./include/header.html" %}
+    <div class="flex justify-center -mt-32 relative md:px-4 xl:px-0 xl:gap-4">
+      <main class="w-full max-w-4xl relative z-10 p-5 md:p-6">
+        <div class="mb-8">
+          <article class="text-black dark:text-white">
+            <h2 class="text-3xl font-bold leading-normal">{{ Page.MetaData.Title }}</h2>
+            {% if Page.MetaData.Name == "links" %}
+            <div class="mt-6">{{ Page.Content|safe }}</div>
+            {% else %}
+            <div
+              class="prose prose-slate dark:prose-invert max-w-none prose-a:no-underline prose-a:border-accent-200 dark:prose-a:border-accent-900 prose-a:border-b-2 prose-a:border-dashed prose-a:text-accent-600 dark:prose-a:text-accent-400 prose-a:transition-colors prose-img:rounded-lg prose-thead:border-b-2 prose-th:text-base prose-th:leading-8 prose-td:text-base prose-td:leading-8 prose-li:my-0.5 mt-6"
+            >
+              {{ Page.Content|safe }}
+            </div>
+            {% endif %}
+          </article>
+          <div class="mt-8" id="pomment-widget">{{ Template.Include.Comment|safe }}</div>
+        </div>
+      </main>
+      <div
+        class="w-full max-w-4xl h-64 absolute bg-white/70 dark:bg-gray-950/70 md:rounded-3xl backdrop-blur-xl"
+        aria-hidden="true"
+      ></div>
+    </div>
+    {% include "./include/footer.html" %}
+  </body>
 </html>
