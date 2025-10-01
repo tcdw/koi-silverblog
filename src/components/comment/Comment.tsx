@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/solid-query";
-import { createEffect, createMemo, createSignal, Show } from "solid-js";
+import { createEffect, createSignal, Show } from "solid-js";
 import { getPostsByURL } from "../../api/comment";
 import { DialogContainer, DialogProvider } from "../../components/ui/dialog";
 import { useCustomDialog } from "../../components/ui/dialog/useCustomDialog";
@@ -118,24 +118,40 @@ function CommentBase(props: CommentProps) {
     }
   });
 
-  const contextValue = createMemo(() => ({
-    url: props.url,
-    title: props.title || document.title,
-    meta: postsQuery.data?.meta,
-    gravatarBaseUrl: props.gravatarBaseUrl,
-    jumpOffset: props.jumpOffset,
-    disableInfoSave: props.disableInfoSave,
-    recaptchaSiteKey: recaptchaSiteKey(),
-    recaptchaLoading: recaptchaLoading(),
+  const contextValue = {
+    get url() {
+      return props.url;
+    },
+    get title() {
+      return props.title || document.title;
+    },
+    get meta() {
+      return postsQuery.data?.meta;
+    },
+    get gravatarBaseUrl() {
+      return props.gravatarBaseUrl;
+    },
+    get jumpOffset() {
+      return props.jumpOffset;
+    },
+    get disableInfoSave() {
+      return props.disableInfoSave;
+    },
+    get recaptchaSiteKey() {
+      return recaptchaSiteKey();
+    },
+    get recaptchaLoading() {
+      return recaptchaLoading();
+    },
     onSuccess: handleSubmitSuccess,
     onError: handleSubmitError,
     onReplySuccess: handleSubmitSuccess,
     onReplyError: handleSubmitError,
     onReplyCancel: handleReplyCancel,
-  }));
+  };
 
   return (
-    <CommentProvider value={contextValue()}>
+    <CommentProvider value={contextValue}>
       <div class="text-black dark:text-white">
         <Show when={postsQuery.isSuccess && postsQuery.data}>
           <Show when={!postsQuery.data!.meta?.locked}>

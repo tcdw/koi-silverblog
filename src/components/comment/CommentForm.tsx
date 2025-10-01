@@ -1,4 +1,4 @@
-import { createSignal, onMount, JSX, Show } from "solid-js";
+import { createSignal, onMount, JSX, Show, createMemo } from "solid-js";
 import { addPost } from "../../api/comment";
 import { getPommentDefaultUser, setPommentDefaultUser } from "../../utils/storage";
 import { CommentInput } from "./CommentInput";
@@ -13,6 +13,7 @@ interface CommentFormProps {
 
 export function CommentForm(props: CommentFormProps) {
   const context = useCommentContext();
+  const hasRecaptcha = createMemo(() => Boolean(context.recaptchaSiteKey));
   const [loading, setLoading] = createSignal(false);
   const [hasSettings, setHasSettings] = createSignal(false);
   const [formData, setFormData] = createSignal({
@@ -154,7 +155,7 @@ export function CommentForm(props: CommentFormProps) {
           required
         />
       </CommentFormItem>
-      <Show when={context.recaptchaSiteKey}>
+      <Show when={hasRecaptcha()}>
         <div class="text-sm leading-normal opacity-60">
           This site is protected by reCAPTCHA and the Google&nbsp;
           <a class="underline" href="https://policies.google.com/privacy">
@@ -171,10 +172,10 @@ export function CommentForm(props: CommentFormProps) {
         <button
           type="submit"
           class="block rounded-md bg-primary-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-primary-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 disabled:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled={loading() || (Boolean(context.recaptchaSiteKey) && Boolean(context.recaptchaLoading))}
+          disabled={loading() || (hasRecaptcha() && Boolean(context.recaptchaLoading))}
           // disabled
         >
-          {loading() ? "发布中……" : context.recaptchaSiteKey && context.recaptchaLoading ? "正在初始化……" : "发布评论"}
+          {loading() ? "发布中……" : hasRecaptcha() && context.recaptchaLoading ? "正在初始化……" : "发布评论"}
         </button>
         <div class="flex items-center">
           <input
