@@ -4,9 +4,13 @@
 <meta name="renderer" content="webkit" />
 <link href="/feed/" type="application/atom+xml" rel="alternate" title="订阅「{{ System.Project.Name }}」" />
 
-{%- if Page.PageInfo.Title=="index" %} {%- set title=System.Project.Name %} {%- set
-description=System.Project.Description %} {%- else %} {%- set title=Page.MetaData.Title %} {%- set
-description=Page.MetaData.Excerpt %} {%- endif %}
+{%- if Page.PageInfo.Title=="index" %}
+  {%- set title=System.Project.Name %}
+  {%- set description=System.Project.Description %}
+{%- else %}
+  {%- set title=Page.MetaData.Title %}
+  {%- set description=Page.MetaData.Excerpt %}
+{%- endif %}
 
 <meta property="og:title" content="{{ title }}" />
 <meta property="og:description" content="{{ description }}" />

@@ -1,6 +1,11 @@
-{%- if Page.PageInfo.Title=="index" && Page.PageInfo.NowPage == 1 -%} {%- set largeBanner=true -%} {%- set
-heightClassName="h-[calc(100svh+8rem)]" -%} {%- set bannerBottomClassName="bottom-10" -%} {%- else -%} {%- set
-largeBanner=false -%} {%- set heightClassName="h-[calc(65lvh+8rem)]" -%} {%- set bannerBottomClassName="bottom-6" -%}
+{%- if Page.PageInfo.Title=="index" && Page.PageInfo.NowPage == 1 -%}
+  {%- set largeBanner=true -%}
+  {%- set heightClassName="h-[calc(100svh+8rem)]" -%}
+  {%- set bannerBottomClassName="bottom-10" -%}
+{%- else -%}
+  {%- set largeBanner=false -%}
+  {%- set heightClassName="h-[calc(65lvh+8rem)]" -%}
+  {%- set bannerBottomClassName="bottom-6" -%}
 {%- endif -%}
 
 <!-- 顶部导航 -->
