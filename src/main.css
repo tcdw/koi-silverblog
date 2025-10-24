@@ -3,9 +3,8 @@
 @plugin "@tailwindcss/typography";
 @theme {
   --font-sans: ChillRoundF, -apple-system, "Microsoft YaHei", sans-serif;
-  --font-mono:
-    "Ubuntu Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", ChillRoundF,
-    monospace;
+  --font-mono: "Ubuntu Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    ChillRoundF, monospace;
 
   --color-primary-50: var(--color-sky-50);
   --color-primary-100: var(--color-sky-100);
@@ -236,4 +235,14 @@ button {
 
 .grecaptcha-badge {
   visibility: hidden;
+}
+
+@media (width >= 48rem) {
+  .koi-squircle-md {
+    border-radius: 1.5rem;
+    @supports (corner-shape: squircle) {
+      border-radius: 3rem;
+      corner-shape: squircle;
+    }
+  }
 }
