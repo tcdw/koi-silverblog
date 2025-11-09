@@ -114,7 +114,7 @@ export function CommentItem(props: CommentItemProps) {
             </Show>
             <CommentDateTime class="ms-4 text-sm text-gray-400 dark:text-gray-500" datetime={props.comment.createdAt} />
           </div>
-          <div class="text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-wrap break-words text-base">
+          <div class="text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-wrap break-all text-base">
             <Show when={props.comment.parentPost}>
               <button
                 class="font-bold text-primary-600 dark:text-primary-400 cursor-pointer hover:underline me-1.5"
